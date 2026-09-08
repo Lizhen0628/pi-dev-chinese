@@ -35,6 +35,18 @@ npx serve dist      # 或任意静态服务器预览
    - `CLOUDFLARE_ACCOUNT_ID`：Cloudflare 账户 ID
 2. 自定义域名 `chinese.pi.tools-online.site` 绑定在 Pages 项目上。
 
+## 上游同步机制（自动）
+
+仓库带有定时差异检测，无需人工盯上游：
+
+- **每日 09:30（北京时间）** 运行 [上游同步检查](.github/workflows/sync-check.yml)（也可手动 `workflow_dispatch` 触发）：
+  1. 对比上游仓库 `packages/coding-agent/docs/*.md` 的 blob SHA，检测文档新增/更新/删除/恢复；
+  2. 检测最新 GitHub Release；
+  3. 有差异时：更新 `sync/upstream/*.md` 英文快照与 `sync/upstream.json` 清单并自动提交，同时创建/更新跟踪 issue **「上游同步：待处理的官网差异」**（含差异表格与上游 commits 链接）；
+  4. Release 变化会更新 `sync/releases-cache.json`，提交后自动触发部署，刷新“动态”页顶部的**最近版本列表**（构建时注入，见 `build.js`）。
+- 收到 issue 后，对照 `sync/upstream/<文档>.md` 更新 `docs-md/<文档>.md` 译文并推送即可；5 个编译版大文档只需同步变化的小节。
+- 局限：首页文案与“动态”页的人工翻译部分无法自动同步，issue 会提示需要人工处理的内容。
+
 ## 许可
 
 - 本仓库的站点实现代码：MIT

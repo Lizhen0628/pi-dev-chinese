@@ -1,0 +1,125 @@
+{
+  "files": {
+    "index": {
+      "sha": "c09cfc9a76e9e7859f909c37df236be597896353",
+      "fetchedAt": "2026-09-08"
+    },
+    "quickstart": {
+      "sha": "1b84fe4df3927566f097b93aa49ce743e6850a34",
+      "fetchedAt": "2026-09-08"
+    },
+    "usage": {
+      "sha": "88ada91ba9bb8b2630fa75b8f97373a3c395577d",
+      "fetchedAt": "2026-09-08"
+    },
+    "providers": {
+      "sha": "4fea738fadbc04b542006779aa8be74377e959f4",
+      "fetchedAt": "2026-09-08"
+    },
+    "models": {
+      "sha": "3cf2ad3ea4d35a5b69e11000f2b0202723ab9360",
+      "fetchedAt": "2026-09-08"
+    },
+    "custom-provider": {
+      "sha": "4921e703532083344389b3b5041610e511375dd3",
+      "fetchedAt": "2026-09-08"
+    },
+    "settings": {
+      "sha": "ee6ba60dea543a332c993639b502965c8b5921a4",
+      "fetchedAt": "2026-09-08"
+    },
+    "keybindings": {
+      "sha": "e2ae16b1a20f15c072711e8a3901e955cd102f21",
+      "fetchedAt": "2026-09-08"
+    },
+    "environment-variables": {
+      "sha": "2315cf302638467375ff8e681068692f43c431e4",
+      "fetchedAt": "2026-09-08"
+    },
+    "security": {
+      "sha": "1e59301bf4d959b2cf6816602f0c8fee83e95f7a",
+      "fetchedAt": "2026-09-08"
+    },
+    "containerization": {
+      "sha": "b83d69e39cd25b0c5cdf33803d4dfa93f6a5b876",
+      "fetchedAt": "2026-09-08"
+    },
+    "extensions": {
+      "sha": "6cf99171e9d69d871d79749cc3ad22b91abaa4ee",
+      "fetchedAt": "2026-09-08"
+    },
+    "skills": {
+      "sha": "02835f82005407b44887f27bca8517ba58dd624b",
+      "fetchedAt": "2026-09-08"
+    },
+    "prompt-templates": {
+      "sha": "073b9f00abdb2c921dd7bacda53d69e56bd941ee",
+      "fetchedAt": "2026-09-08"
+    },
+    "themes": {
+      "sha": "3259877e264b8c8c5162ff59f71d0756a3674ef3",
+      "fetchedAt": "2026-09-08"
+    },
+    "packages": {
+      "sha": "cadeb18673a08b8f2812510abac3a5a33804b4a9",
+      "fetchedAt": "2026-09-08"
+    },
+    "sessions": {
+      "sha": "1a50ee02d7cf53652fb3569bd66354779fea9dfd",
+      "fetchedAt": "2026-09-08"
+    },
+    "compaction": {
+      "sha": "f9b62030c13259dee60586b81d993567f23e58d9",
+      "fetchedAt": "2026-09-08"
+    },
+    "session-format": {
+      "sha": "d8eb3a6b5ff3acb715f4df5c0dcf9b3ec6f6119f",
+      "fetchedAt": "2026-09-08"
+    },
+    "sdk": {
+      "sha": "63fe22d0ec992142c8e42eafb85c5cd3c791cb5a",
+      "fetchedAt": "2026-09-08"
+    },
+    "rpc": {
+      "sha": "d81c23bbf33917d1d319aa7bb460f05639cfb515",
+      "fetchedAt": "2026-09-08"
+    },
+    "json": {
+      "sha": "6c306927df1ea68722bc93c306d0a8e420b2113c",
+      "fetchedAt": "2026-09-08"
+    },
+    "tui": {
+      "sha": "b1e737325480b309988470b26eb333dfa952ed96",
+      "fetchedAt": "2026-09-08"
+    },
+    "development": {
+      "sha": "fa15ba0316fca8d88eba3eef899ce8ecf8b75f66",
+      "fetchedAt": "2026-09-08"
+    },
+    "windows": {
+      "sha": "2517fd946d5e187964d96e1108bf8681b35e43f3",
+      "fetchedAt": "2026-09-08"
+    },
+    "termux": {
+      "sha": "1dd355942806b1be5b1a1f75c8b48665df7d0fa1",
+      "fetchedAt": "2026-09-08"
+    },
+    "tmux": {
+      "sha": "0083b5f1fe690e40412813a161cacf567120a49c",
+      "fetchedAt": "2026-09-08"
+    },
+    "terminal-setup": {
+      "sha": "de91e3c5cf383fa1e97aaaa1b1a835bc796dcd94",
+      "fetchedAt": "2026-09-08"
+    },
+    "shell-aliases": {
+      "sha": "af0cd25f198cfe1af2a4da82cc6fddab97f5aeaa",
+      "fetchedAt": "2026-09-08"
+    },
+    "llama-cpp": {
+      "sha": "bffa13f423aebaddf228145ddb954db4c4800c19",
+      "fetchedAt": "2026-09-08"
+    }
+  },
+  "latestRelease": "v0.85.1"
+}

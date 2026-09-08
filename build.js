@@ -215,6 +215,28 @@ for (const f of files) {
 }
 console.log(`built ${built} docs pages → dist/`);
 
+/* 注入“最近版本”列表（来自 sync/releases-cache.json，由上游同步检查 workflow 维护） */
+try {
+  const cachePath = join(root, "sync", "releases-cache.json");
+  if (existsSync(cachePath)) {
+    const releases = JSON.parse(readFileSync(cachePath, "utf8"));
+    const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    const items = releases
+      .map(
+        (r) =>
+          `<a class="rel-item" href="${esc(r.url)}" target="_blank" rel="noopener"><span class="rel-tag">${esc(r.tag)}</span><span class="rel-name">${esc(r.name)}</span><time>${esc(r.date)}</time></a>`
+      )
+      .join("\n");
+    const newsPath = join(dist, "news", "index.html");
+    let html = readFileSync(newsPath, "utf8");
+    if (!html.includes("<!-- releases:start -->")) throw new Error("news 页缺少 releases 标记");
+    html = html.replace(/<!-- releases:start -->[\s\S]*?<!-- releases:end -->/, `<!-- releases:start -->\n${items}\n<!-- releases:end -->`);
+    writeFileSync(newsPath, html);
+  }
+} catch (e) {
+  console.warn("releases 列表注入失败:", e.message);
+}
+
 /* 404 页 */
 if (!existsSync(join(dist, "404.html"))) {
   writeFileSync(

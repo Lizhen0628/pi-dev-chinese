@@ -1,0 +1,56 @@
+name: 上游同步检查
+
+# 每天北京时间 09:30（UTC 01:30）检查上游差异；可手动触发
+on:
+  schedule:
+    - cron: "30 1 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: sync-check
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 运行同步检查
+        id: sync
+        run: node scripts/sync-check.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: 提交快照与缓存更新
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sync/
+          if git diff --cached --quiet; then
+            echo "快照与缓存无变化"
+          else
+            git commit -m "chore(sync): 更新上游文档快照与版本缓存"
+            git push
+          fi
+
+      - name: 创建或更新跟踪 issue
+        if: steps.sync.outputs.changed == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ ! -f sync-report.md ]; then echo "无报告，跳过"; exit 0; fi
+          NUM=$(gh issue list --state open --search "上游同步 in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$NUM" ]; then
+            gh issue edit "$NUM" --body-file sync-report.md
+          else
+            gh issue create --title "上游同步：待处理的官网差异" --body-file sync-report.md
+          fi
