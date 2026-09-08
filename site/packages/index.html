@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软件包目录 · Pi 编码智能体中文站</title>
+<meta name="description" content="Pi 社区软件包目录：扩展、技能、提示词模板与主题。">
+<link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>
+  (function () {
+    var t = localStorage.getItem("pi-theme") || "auto";
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="nav-logo" href="/" aria-label="Pi 中文站首页">
+      <svg width="26" height="26" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M2 1h9v3H5v3h5v3H5v5H2V1zm10 7h2v7h-3V9h1V8z"/></svg>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="/">首页</a>
+      <a href="/docs/">文档</a>
+      <a href="/news/">动态</a>
+      <a href="/packages/" class="active">软件包</a>
+      <a href="/models/">模型</a>
+    </nav>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" title="切换主题">主题：自动</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker">PACKAGE CATALOG</p>
+    <h1>软件包目录</h1>
+    <p class="lead">发布到 npm 的扩展、技能、提示词模板与主题，用 <code class="chip">pi install npm:&lt;package&gt;</code> 一条命令安装。这里是精选示例（描述为中文摘要）；完整的实时目录（数千个软件包）请访问 <a href="https://pi.dev/packages" target="_blank" rel="noopener">pi.dev/packages</a>。</p>
+    <div class="list-toolbar">
+      <input type="search" id="pkgFilter" placeholder="按名称或描述筛选…" aria-label="筛选软件包">
+      <a class="btn" href="https://pi.dev/packages" target="_blank" rel="noopener">浏览完整目录（5000+）→</a>
+    </div>
+  </div>
+
+  <div id="pkgList">
+    <div class="pkg-item" data-name="pi-mcp-adapter">
+      <span class="p-name">pi-mcp-adapter</span>
+      <div class="p-meta"><span>EXTENSION</span><span>761.4K/月</span><span>nicopreme</span></div>
+      <p class="p-desc">MCP（Model Context Protocol）适配器扩展，让 Pi 可以调用 MCP 服务器上的工具。</p>
+      <code class="p-cmd">$ pi install npm:pi-mcp-adapter</code>
+    </div>
+    <div class="pkg-item" data-name="pi-web-access">
+      <span class="p-name">pi-web-access</span>
+      <div class="p-meta"><span>EXTENSION</span></div>
+      <p class="p-desc">为 Pi 提供网页搜索、URL 抓取、GitHub 仓库克隆、PDF 提取、YouTube 视频理解与本地视频分析等网络能力，支持多家搜索服务。</p>
+      <code class="p-cmd">$ pi install npm:pi-web-access</code>
+    </div>
+    <div class="pkg-item" data-name="@henryqw/pi-footer">
+      <span class="p-name">@henryqw/pi-footer</span>
+      <div class="p-meta"><span>EXTENSION</span><span>3 个月前发布</span></div>
+      <p class="p-desc">在 Pi 的状态栏页脚显示简洁的仓库、分支与用量信息。</p>
+      <code class="p-cmd">$ pi install npm:@henryqw/pi-footer</code>
+    </div>
+    <div class="pkg-item" data-name="@henryqw/pi-pr">
+      <span class="p-name">@henryqw/pi-pr</span>
+      <div class="p-meta"><span>EXTENSION</span><span>3 个月前发布</span></div>
+      <p class="p-desc">提供 <code class="chip">/pr</code> 命令：识别或关联当前拉取请求，然后创建、更新、回应审阅意见、修复 CI，或在你确认后合并。</p>
+      <code class="p-cmd">$ pi install npm:@henryqw/pi-pr</code>
+    </div>
+    <div class="pkg-item" data-name="pi-token-budget">
+      <span class="p-name">pi-token-budget</span>
+      <div class="p-meta"><span>EXTENSION</span><span>3 个月前发布</span></div>
+      <p class="p-desc">无摘要的上下文窗口滚动方案：持久化笔记检查点、历史恢复，以及回退后的工具调用围栏。</p>
+      <code class="p-cmd">$ pi install npm:pi-token-budget</code>
+    </div>
+    <div class="pkg-item" data-name="@tianhai/pi-workflow-kit">
+      <span class="p-name">@tianhai/pi-workflow-kit</span>
+      <div class="p-meta"><span>EXTENSION</span><span>3 个月前发布</span></div>
+      <p class="p-desc">在 AI 编码智能体中执行"设计 → 执行 → 收尾"的结构化工作流，并强制 TDD 纪律。</p>
+      <code class="p-cmd">$ pi install npm:@tianhai/pi-workflow-kit</code>
+    </div>
+    <div class="pkg-item" data-name="gentle-pi">
+      <span class="p-name">gentle-pi</span>
+      <div class="p-meta"><span>EXTENSION</span><span>3 个月前发布</span></div>
+      <p class="p-desc">把 Pi 变成"el Gentleman"：带 SDD/OpenSpec、子智能体、严格 TDD 证据、评审护栏与技能发现的高级架构师开发外壳。</p>
+      <code class="p-cmd">$ pi install npm:gentle-pi</code>
+    </div>
+    <div class="pkg-item" data-name="@akagilnc/pi-workflow-roles">
+      <span class="p-name">@akagilnc/pi-workflow-roles</span>
+      <div class="p-meta"><span>EXTENSION</span><span>3 个月前发布</span></div>
+      <p class="p-desc">为 Pi 提供绑定式工作流角色。</p>
+      <code class="p-cmd">$ pi install npm:@akagilnc/pi-workflow-roles</code>
+    </div>
+    <div class="pkg-item" data-name="@heihei0299/pi-switch">
+      <span class="p-name">@heihei0299/pi-switch</span>
+      <div class="p-meta"><span>EXTENSION</span><span>3 个月前发布</span></div>
+      <p class="p-desc">轻量的 models.json 配置切换器，在多套模型配置之间一键切换。</p>
+      <code class="p-cmd">$ pi install npm:@heihei0299/pi-switch</code>
+    </div>
+  </div>
+
+  <p class="muted" id="pkgEmpty" style="display:none; margin-top:26px;">没有匹配的软件包。</p>
+  <p class="muted" style="margin-top:26px; font-size:14px;">想发布自己的软件包？阅读<a href="/docs/packages/">软件包文档</a>，然后把 <code class="chip">pi-</code> 前缀的包发布到 npm 即可被目录收录。</p>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h4>Pi 中文站</h4>
+        <a href="/docs/">文档</a>
+        <a href="/news/">动态</a>
+        <a href="/packages/">软件包</a>
+        <a href="/models/">模型</a>
+      </div>
+      <div class="foot-col">
+        <h4>项目</h4>
+        <a href="https://github.com/earendil-works/pi" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.npmjs.com/package/@earendil-works/pi-coding-agent" target="_blank" rel="noopener">npm</a>
+        <a href="https://discord.gg/3cU7Bz4UPx" target="_blank" rel="noopener">Discord</a>
+        <a href="https://x.com/pidotdev" target="_blank" rel="noopener">X (@pidotdev)</a>
+      </div>
+      <div class="foot-col">
+        <h4>相关</h4>
+        <a href="https://pi.dev" target="_blank" rel="noopener">pi.dev（英文原站）</a>
+        <a href="https://earendil.com" target="_blank" rel="noopener">Earendil Inc.</a>
+        <a href="https://github.com/earendil-works/pi/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+      </div>
+    </div>
+    <p class="foot-note">
+      本站是 Pi（<a href="https://pi.dev" target="_blank" rel="noopener">pi.dev</a>，由 Earendil Inc. 与贡献者开发，MIT 协议）的社区中文翻译站，用于方便中文读者阅读其文档，非官方站点。文档内容依据 MIT 协议翻译发布，版权归原作者所有；如与英文原文有出入，以英文原文为准。
+    </p>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script>
+  (function () {
+    var input = document.getElementById("pkgFilter");
+    var items = document.querySelectorAll("#pkgList .pkg-item");
+    var empty = document.getElementById("pkgEmpty");
+    if (!input) return;
+    input.addEventListener("input", function () {
+      var q = input.value.trim().toLowerCase();
+      var shown = 0;
+      items.forEach(function (el) {
+        var hay = (el.getAttribute("data-name") + " " + el.textContent).toLowerCase();
+        var hit = !q || hay.indexOf(q) !== -1;
+        el.style.display = hit ? "" : "none";
+        if (hit) shown++;
+      });
+      if (empty) empty.style.display = shown ? "none" : "";
+    });
+  })();
+</script>
+</body>
+</html>

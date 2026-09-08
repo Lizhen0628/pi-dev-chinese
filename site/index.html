@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pi 编码智能体 · 中文站</title>
+<meta name="description" content="Pi 是一个极简的开源 AI 编码智能体外壳：可通过扩展、技能、提示词模板与主题自由定制。这是 Pi（pi.dev）的社区中文站。">
+<link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>
+  (function () {
+    var t = localStorage.getItem("pi-theme") || "auto";
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="nav-logo" href="/" aria-label="Pi 中文站首页">
+      <svg width="26" height="26" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M2 1h9v3H5v3h5v3H5v5H2V1zm10 7h2v7h-3V9h1V8z"/></svg>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="/" class="active">首页</a>
+      <a href="/docs/">文档</a>
+      <a href="/news/">动态</a>
+      <a href="/packages/">软件包</a>
+      <a href="/models/">模型</a>
+    </nav>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" title="切换主题">主题：自动</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-logo" aria-hidden="true">
+      <svg width="64" height="64" viewBox="0 0 16 16"><path fill="var(--text-strong)" d="M2 1h9v3H5v3h5v3H5v5H2V1zm10 7h2v7h-3V9h1V8z"/></svg>
+    </div>
+    <h1 class="display">编码 Agent 外壳有很多，<br>但这一个<span class="hl">属于你自己</span></h1>
+    <p class="lead" style="text-align:center; margin:0 auto;">Pi 是一个以 MIT 协议开源的极简编码智能体。它不替你决定工作流，而是给你足以搭出任何工作流的原语。</p>
+
+    <div class="hero-install">
+      <div class="install-box">
+        <div class="install-tabs" role="tablist" aria-label="安装方式">
+          <button class="active" data-tab="curl">curl</button>
+          <button data-tab="pwsh">PowerShell</button>
+          <button data-tab="npm">npm</button>
+          <button data-tab="pnpm">pnpm</button>
+          <button data-tab="bun">bun</button>
+        </div>
+        <div class="install-body">
+          <code id="installCmd"><span class="p">$ </span>curl -fsSL https://pi.dev/install.sh | bash</code>
+          <button class="copy-btn" id="copyBtn">复制</button>
+        </div>
+      </div>
+      <p class="hero-tag">OPEN SOURCE · MIT LICENSE · @EARENDIL-WORKS/PI-CODING-AGENT</p>
+    </div>
+
+    <div class="hero-links">
+      <a class="btn primary" href="/docs/quickstart/">快速上手 →</a>
+      <a class="btn" href="https://github.com/earendil-works/pi" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn" href="https://www.npmjs.com/package/@earendil-works/pi-coding-agent" target="_blank" rel="noopener">npm</a>
+      <a class="btn" href="https://discord.gg/3cU7Bz4UPx" target="_blank" rel="noopener">Discord</a>
+    </div>
+
+    <div class="scroll-hint">向下滚动 ↓</div>
+  </section>
+
+  <!-- 为什么选择 Pi -->
+  <section class="section wrap" id="why">
+    <p class="kicker">WHY PI</p>
+    <h2 class="h2">为什么选择 Pi？</h2>
+    <p class="lead">市面上的 Agent 外壳大多替你预设了一整套工作方式。Pi 的思路相反：把内核做小，把可定制性做到极致——扩展、技能、提示词模板、主题，全部开放。</p>
+    <p class="lead">与此同时，Pi 有意<strong>不做</strong>子智能体（sub-agent）和计划模式（plan mode）这类固化功能。你想要这些？社区里有现成扩展，或者让 Pi 自己给你写一个——这正是它的设计哲学。</p>
+  </section>
+
+  <!-- 改的是外壳，不是工作流 -->
+  <section class="section wrap">
+    <div class="feature">
+      <div class="demo">
+        <div class="term">
+          <div class="term-bar"><span class="dot"></span><span class="cap">Pi · 让它给自己写一个命令</span></div>
+          <div class="term-body">
+<pre><span class="t-dim">&gt;</span> <span class="type-line" data-text="帮我写一个 /migrate 命令，自动跑数据库迁移"></span><span class="caret"></span>
+<span class="t-dim">… 正在生成扩展 ext/migrate.ts …</span>
+<span class="t-green">✓</span> 扩展已注册，输入 <span class="t-accent">/reload</span> 立即生效</pre>
+          </div>
+          <div class="term-foot">自定义命令 = 一个 TypeScript 扩展</div>
+        </div>
+      </div>
+      <div class="copy">
+        <p class="kicker">EXTENSIBLE BY DESIGN</p>
+        <h2 class="h2">改的是外壳，<br>不是你的工作流</h2>
+        <p>缺一个顺手的命令或工具？直接让 Pi 给你写一个，保存为扩展，输入 <code class="chip">/reload</code> 即刻生效。不用重启，不用等上游发布新版本。</p>
+        <p>你的工作流沉淀在你的仓库里，跟随代码一起演进，而不是被锁定在某个工具的版本路线图上。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 提供商与模型 -->
+  <section class="section wrap">
+    <div class="feature flip">
+      <div class="demo">
+        <div class="term">
+          <div class="term-bar"><span class="dot"></span><span class="cap">Pi · 会话中途切换模型</span></div>
+          <div class="term-body">
+<pre><span class="t-dim">&gt;</span> <span class="t-accent">/model</span> claude
+  claude-opus-4-6        <span class="t-dim">[anthropic]</span>
+  claude-sonnet-4-6      <span class="t-dim">[anthropic]</span>
+<span class="t-orange">→ claude-sonnet-4-5</span>      <span class="t-dim">[anthropic]</span>
+  claude-haiku-4-5       <span class="t-dim">[github-copilot]</span>
+<span class="t-dim">(22/60)</span>
+
+<span class="t-dim">Model Name: Claude Sonnet 4.5 (latest)</span></pre>
+          </div>
+          <div class="term-foot">Ctrl+L 切换模型 · Ctrl+P 在常用模型间轮换</div>
+        </div>
+      </div>
+      <div class="copy">
+        <p class="kicker">PROVIDERS</p>
+        <h2 class="h2">15+ 提供商，<br>数百个模型</h2>
+        <p>Anthropic、OpenAI、Google、Azure、Bedrock、Mistral、Groq、Cerebras、xAI、Hugging Face、Kimi、MiniMax、NVIDIA、OpenRouter、Ollama……通过 API Key 或 OAuth 认证。</p>
+        <p>同一个会话中途即可用 <code class="chip">/model</code> 或 <kbd>Ctrl+L</kbd> 换模型；<kbd>Ctrl+P</kbd> 在常用模型之间轮换。也支持通过 models.json 或扩展接入自定义提供商。</p>
+        <div class="provider-cloud">
+          <span>Anthropic</span><span>OpenAI</span><span>Google</span><span>Azure</span><span>Bedrock</span><span>Mistral</span><span>Groq</span><span>Cerebras</span><span>xAI</span><span>Kimi</span><span>MiniMax</span><span>NVIDIA</span><span>OpenRouter</span><span>Ollama</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 会话树 -->
+  <section class="section wrap">
+    <div class="feature">
+      <div class="demo">
+        <div class="term">
+          <div class="term-bar"><span class="dot"></span><span class="cap">Pi · 树状会话历史</span></div>
+          <div class="term-body">
+<pre><span class="t-dim">&gt;</span> <span class="t-accent">/tree</span>
+<span class="t-dim">会话分支：</span>
+  <span class="t-dim">├─</span> 修好登录 bug
+  <span class="t-dim">│</span>    <span class="t-dim">├─</span> <span class="t-orange">方案 A：改中间件</span> <span class="t-green">← 当前</span>
+  <span class="t-dim">│</span>    <span class="t-dim">└─</span> 方案 B：改路由
+  <span class="t-dim">└─</span> 重构支付模块</pre>
+          </div>
+          <div class="term-foot">所有分支保存在同一个会话文件里</div>
+        </div>
+      </div>
+      <div class="copy">
+        <p class="kicker">HISTORY</p>
+        <h2 class="h2">树状结构、<br>可分享的会话历史</h2>
+        <p>会话以树的形式存储。用 <code class="chip">/tree</code> 回到任意一个历史节点，从那里继续分叉——所有分支都收在同一份文件里，还能按消息类型过滤、给关键节点打书签。</p>
+        <p>用 <code class="chip">/export</code> 导出为 HTML，或用 <code class="chip">/share</code> 上传到 GitHub gist 生成可分享的只读链接。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 上下文工程 -->
+  <section class="section wrap">
+    <div class="feature flip">
+      <div class="demo">
+        <div class="term">
+          <div class="term-bar"><span class="dot"></span><span class="cap">Pi · 上下文工程</span></div>
+          <div class="term-body">
+<pre><span class="t-dim">项目根目录</span>
+  <span class="t-accent">AGENTS.md</span>      <span class="t-dim">← 项目约定，自动注入</span>
+  <span class="t-accent">SYSTEM.md</span>      <span class="t-dim">← 全局系统提示</span>
+  .pi/skills/    <span class="t-dim">← 按需加载的技能</span>
+  .pi/prompts/   <span class="t-dim">← 提示词模板</span>
+
+<span class="t-dim">上下文过长？自动压缩（compaction）</span>
+<span class="t-green">✓</span> 保留关键决策与未完成事项</pre>
+          </div>
+          <div class="term-foot">AGENTS.md · SYSTEM.md · compaction · skills</div>
+        </div>
+      </div>
+      <div class="copy">
+        <p class="kicker">CONTEXT ENGINEERING</p>
+        <h2 class="h2">上下文工程，<br>一层层都由你掌控</h2>
+        <p>用 <code class="chip">AGENTS.md</code> 沉淀项目约定，用 <code class="chip">SYSTEM.md</code> 定制全局系统提示；技能（skills）与提示词模板按需注入；上下文接近上限时自动压缩摘要，动态上下文也可以用扩展注入。</p>
+        <p>没有魔法目录、没有隐藏配置——你写进上下文的每一行，都由你决定。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 引导或追问 -->
+  <section class="section wrap">
+    <div class="feature">
+      <div class="demo">
+        <div class="term">
+          <div class="term-bar"><span class="dot"></span><span class="cap">Pi · 边跑边引导</span></div>
+          <div class="term-body">
+<pre><span class="t-dim">… 正在重构 auth/ 目录（12 个文件）</span>
+<span class="t-dim">…</span>
+<span class="t-dim">&gt;</span> <span class="type-line" data-text="别动 session.ts，先只改登录逻辑"></span><span class="caret"></span>
+<span class="t-green">✓</span> 已收到引导，调整执行方向
+<span class="t-dim">（Alt+Enter 可把追问排进队列，不中断当前任务）</span></pre>
+          </div>
+          <div class="term-foot">Enter 引导 · Alt+Enter 追加排队消息</div>
+        </div>
+      </div>
+      <div class="copy">
+        <p class="kicker">STEERING</p>
+        <h2 class="h2">边跑边引导，<br>还是先排队追问？</h2>
+        <p>任务跑偏了，不必停手重来：直接打字回车（<kbd>Enter</kbd>）即可实时引导正在运行的智能体。</p>
+        <p>想补充后续要求又不想打断当前工作？用 <kbd>Alt</kbd>+<kbd>Enter</kbd> 把消息排进队列，Pi 会在合适的时机依次处理。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 四种模式 -->
+  <section class="section wrap">
+    <p class="kicker">MODES</p>
+    <h2 class="h2">四种运行模式，同一个内核</h2>
+    <p class="lead">交互终端只是 Pi 的一个形态。同一个智能体内核可以嵌入脚本、服务与你自己的应用。</p>
+    <div class="mode-grid">
+      <div class="card">
+        <h3>交互式 TUI</h3>
+        <p>功能完整的终端界面：树状历史、引导、模型切换、全屏视图。日常开发的主战场。</p>
+      </div>
+      <div class="card">
+        <h3>Print / JSON 模式</h3>
+        <p><code class="chip">pi -p "…" </code>一次性执行，<code class="chip">--mode json</code> 输出结构化事件流，方便脚本与 CI 消费。</p>
+      </div>
+      <div class="card">
+        <h3>RPC 模式</h3>
+        <p>以 JSON-RPC 暴露会话控制，适合给 Pi 套一层自己的前端或集成进现有工具链。</p>
+      </div>
+      <div class="card">
+        <h3>TypeScript SDK</h3>
+        <p>把智能体循环直接嵌进你的程序。OpenClaw 就是一个用 Pi SDK 构建的例子。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 原语而非功能 -->
+  <section class="section wrap">
+    <div class="feature flip">
+      <div class="demo">
+        <div class="term">
+          <div class="term-bar"><span class="dot"></span><span class="cap">Pi · 扩展即 TypeScript</span></div>
+          <div class="term-body">
+<pre><span class="t-dim">// ext/commit.ts — 一个 20 行的 /commit 命令</span>
+export default function (pi) {
+  pi.registerCommand("commit", async (ctx) =&gt; {
+    const diff = await ctx.exec("git diff --staged");
+    await pi.agent.prompt(
+      `根据以下 diff 写一条提交信息：\n${diff}`
+    );
+  });
+}</pre>
+          </div>
+          <div class="term-foot">pi install npm:@foo/pi-tools</div>
+        </div>
+      </div>
+      <div class="copy">
+        <p class="kicker">PRIMITIVES, NOT FEATURES</p>
+        <h2 class="h2">原语，而非功能</h2>
+        <p>Pi 的扩展就是一个 TypeScript 文件：注册命令、工具、事件处理器，甚至接管整个 UI。社区扩展用 <code class="chip">pi install npm:@foo/pi-tools</code> 一条命令安装。</p>
+        <p>有人给 Pi 加过完整的多智能体计划模式，也有人给它接上了 DOOM（图 01：在编码智能体里打 DOOM）。原语够了，功能自己长。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 我们没有构建什么 -->
+  <section class="section wrap">
+    <p class="kicker">WHAT WE DIDN'T BUILD</p>
+    <h2 class="h2">我们有意没有构建什么</h2>
+    <p class="lead">Pi 把可扩展性做足，所以它不必替你规定工作流。以下这些都没有内置——但如果你需要，扩展生态里大概率能找到，或者让 Pi 帮你写一个。</p>
+    <div class="grid3">
+      <div class="card"><h3>无 MCP</h3><p>不内置 Model Context Protocol。想要？装个适配器扩展即可。</p></div>
+      <div class="card"><h3>无子智能体</h3><p>没有内置 sub-agent。社区扩展提供了多种多智能体方案。</p></div>
+      <div class="card"><h3>无权限弹窗</h3><p>默认不弹权限确认框；路径保护与沙箱可自行配置。</p></div>
+      <div class="card"><h3>无计划模式</h3><p>没有固化 plan mode。一个扩展示例就能把它加回来。</p></div>
+      <div class="card"><h3>无内置待办</h3><p>没有内置 to-do 列表。你的任务管理方式由你自己选。</p></div>
+      <div class="card"><h3>无后台 bash</h3><p>没有内置后台 shell。需要长任务时扩展一样能做。</p></div>
+    </div>
+  </section>
+
+  <!-- 参与进来 -->
+  <section class="section wrap">
+    <div class="cta">
+      <p class="kicker">GET INVOLVED</p>
+      <h2 class="h2">参与 Pi 的建设</h2>
+      <p class="lead" style="margin:0 auto 28px;">Pi 采用 MIT 协议开源，由社区推动。提 issue、写扩展、翻译文档，或者只是来 Discord 聊聊你怎么定制自己的外壳。</p>
+      <div class="hero-links" style="margin-top:0;">
+        <a class="btn primary" href="https://github.com/earendil-works/pi/issues" target="_blank" rel="noopener">GitHub Issues</a>
+        <a class="btn" href="https://discord.gg/3cU7Bz4UPx" target="_blank" rel="noopener">加入 Discord</a>
+        <a class="btn" href="/docs/">阅读中文文档 →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h4>Pi 中文站</h4>
+        <a href="/docs/">文档</a>
+        <a href="/news/">动态</a>
+        <a href="/packages/">软件包</a>
+        <a href="/models/">模型</a>
+      </div>
+      <div class="foot-col">
+        <h4>项目</h4>
+        <a href="https://github.com/earendil-works/pi" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.npmjs.com/package/@earendil-works/pi-coding-agent" target="_blank" rel="noopener">npm</a>
+        <a href="https://discord.gg/3cU7Bz4UPx" target="_blank" rel="noopener">Discord</a>
+        <a href="https://x.com/pidotdev" target="_blank" rel="noopener">X (@pidotdev)</a>
+      </div>
+      <div class="foot-col">
+        <h4>相关</h4>
+        <a href="https://pi.dev" target="_blank" rel="noopener">pi.dev（英文原站）</a>
+        <a href="https://earendil.com" target="_blank" rel="noopener">Earendil Inc.</a>
+        <a href="https://github.com/earendil-works/pi/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+      </div>
+    </div>
+    <p class="foot-note">
+      本站是 Pi（<a href="https://pi.dev" target="_blank" rel="noopener">pi.dev</a>，由 Earendil Inc. 与贡献者开发，MIT 协议）的社区中文翻译站，用于方便中文读者阅读其文档，非官方站点。文档内容依据 MIT 协议翻译发布，版权归原作者所有；如与英文原文有出入，以英文原文为准。
+    </p>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+</body>
+</html>

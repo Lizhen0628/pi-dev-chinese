@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>动态 · Pi 编码智能体中文站</title>
+<meta name="description" content="Pi 编码智能体的版本发布与项目动态（中文摘要）。">
+<link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>
+  (function () {
+    var t = localStorage.getItem("pi-theme") || "auto";
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="nav-logo" href="/" aria-label="Pi 中文站首页">
+      <svg width="26" height="26" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M2 1h9v3H5v3h5v3H5v5H2V1zm10 7h2v7h-3V9h1V8z"/></svg>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="/">首页</a>
+      <a href="/docs/">文档</a>
+      <a href="/news/" class="active">动态</a>
+      <a href="/packages/">软件包</a>
+      <a href="/models/">模型</a>
+    </nav>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" title="切换主题">主题：自动</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker">NEWS</p>
+    <h1>动态</h1>
+    <p class="lead">Pi 团队的版本发布与项目动态中文摘要。以下为节选翻译，完整内容以 <a href="https://github.com/earendil-works/pi/releases" target="_blank" rel="noopener">GitHub Releases</a> 与 <a href="https://pi.dev/news" target="_blank" rel="noopener">pi.dev/news</a> 为准。</p>
+    <div class="list-toolbar">
+      <a class="btn" href="https://github.com/earendil-works/pi/releases" target="_blank" rel="noopener">GitHub Releases</a>
+      <a class="btn" href="https://pi.dev/news" target="_blank" rel="noopener">英文原站动态</a>
+    </div>
+  </div>
+
+  <article class="release">
+    <div class="r-head">
+      <span class="r-tag">发布说明</span>
+      <time datetime="2026-09-05">2026 年 9 月 5 日</time>
+      <h2>Pi 0.85.1</h2>
+    </div>
+    <ul>
+      <li><strong>新模型：</strong>新增 GPT-6 Astra，可通过 OpenAI API Key 与 OpenAI Codex 订阅使用。</li>
+      <li><strong>改进：</strong>全屏模式下按住 Alt 滚轮，滚动手感更快（约 5 倍）。</li>
+    </ul>
+    <div class="list-toolbar">
+      <a class="btn" href="https://github.com/earendil-works/pi/releases" target="_blank" rel="noopener">查看完整说明 →</a>
+    </div>
+  </article>
+
+  <article class="release">
+    <div class="r-head">
+      <span class="r-tag">发布说明</span>
+      <time datetime="2026-09-04">2026 年 9 月 4 日</time>
+      <h2>Pi 0.85.0</h2>
+    </div>
+    <ul>
+      <li><strong>思考力度持久化：</strong>支持的 Anthropic 传输层现在会在多轮之间保留 thinking effort 设置，并能在签名思考不匹配时安全恢复。</li>
+      <li><strong>全屏记录控制：</strong>全屏视图上滚后可一键跳回最新消息，并内置工作状态指示器。</li>
+      <li><strong>可恢复的内存会话：</strong>SDK 新增 <code class="chip">SessionManager.inMemory()</code>，可恢复外部托管的会话条目。</li>
+      <li><strong>vLLM / 兼容端点：</strong>继承 OpenAI 兼容的 <code class="chip">vllmPriority</code> 与 <code class="chip">supportsMaxOutputTokens</code> 模型设置。</li>
+      <li><strong>全屏记录跳转：</strong>上滚时出现可点击的"跳到最新消息"标签。</li>
+    </ul>
+    <div class="list-toolbar">
+      <a class="btn" href="https://github.com/earendil-works/pi/releases" target="_blank" rel="noopener">查看完整说明 →</a>
+    </div>
+  </article>
+
+  <p class="muted" style="margin-top:26px; font-size:14px;">更早的版本说明请访问 <a href="https://pi.dev/news" target="_blank" rel="noopener">pi.dev/news</a> 或 <a href="https://github.com/earendil-works/pi/releases" target="_blank" rel="noopener">GitHub Releases</a>。</p>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h4>Pi 中文站</h4>
+        <a href="/docs/">文档</a>
+        <a href="/news/">动态</a>
+        <a href="/packages/">软件包</a>
+        <a href="/models/">模型</a>
+      </div>
+      <div class="foot-col">
+        <h4>项目</h4>
+        <a href="https://github.com/earendil-works/pi" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.npmjs.com/package/@earendil-works/pi-coding-agent" target="_blank" rel="noopener">npm</a>
+        <a href="https://discord.gg/3cU7Bz4UPx" target="_blank" rel="noopener">Discord</a>
+        <a href="https://x.com/pidotdev" target="_blank" rel="noopener">X (@pidotdev)</a>
+      </div>
+      <div class="foot-col">
+        <h4>相关</h4>
+        <a href="https://pi.dev" target="_blank" rel="noopener">pi.dev（英文原站）</a>
+        <a href="https://earendil.com" target="_blank" rel="noopener">Earendil Inc.</a>
+        <a href="https://github.com/earendil-works/pi/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+      </div>
+    </div>
+    <p class="foot-note">
+      本站是 Pi（<a href="https://pi.dev" target="_blank" rel="noopener">pi.dev</a>，由 Earendil Inc. 与贡献者开发，MIT 协议）的社区中文翻译站，用于方便中文读者阅读其文档，非官方站点。文档内容依据 MIT 协议翻译发布，版权归原作者所有；如与英文原文有出入，以英文原文为准。
+    </p>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模型目录 · Pi 编码智能体中文站</title>
+<meta name="description" content="Pi 支持的模型提供商与模型目录中文说明。">
+<link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script>
+  (function () {
+    var t = localStorage.getItem("pi-theme") || "auto";
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="nav-logo" href="/" aria-label="Pi 中文站首页">
+      <svg width="26" height="26" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M2 1h9v3H5v3h5v3H5v5H2V1zm10 7h2v7h-3V9h1V8z"/></svg>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="/">首页</a>
+      <a href="/docs/">文档</a>
+      <a href="/news/">动态</a>
+      <a href="/packages/">软件包</a>
+      <a href="/models/" class="active">模型</a>
+    </nav>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" title="切换主题">主题：自动</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <p class="kicker">MODEL CATALOG</p>
+    <h1>模型目录</h1>
+    <p class="lead">Pi 内置 1300+ 个模型定义，覆盖 15+ 个提供商，开箱即用。目录的实时完整版（含上下文长度与价格）见 <a href="https://pi.dev/models" target="_blank" rel="noopener">pi.dev/models</a>；接入自定义模型与提供商的方法见<a href="/docs/models/">自定义模型</a>与<a href="/docs/custom-provider/">自定义提供商</a>文档。</p>
+  </div>
+
+  <section class="provider-group">
+    <h2>内置提供商</h2>
+    <p class="muted" style="font-size:14.5px;">通过 API Key 或 OAuth 认证。会话中用 <code class="chip">/model</code> 或 <kbd>Ctrl+L</kbd> 随时切换。</p>
+    <table class="models">
+      <thead>
+        <tr><th>提供商</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="mono">anthropic</td><td>Anthropic 官方 API（Claude 系列）</td></tr>
+        <tr><td class="mono">openai</td><td>OpenAI 官方 API</td></tr>
+        <tr><td class="mono">openai-codex</td><td>OpenAI Codex 订阅</td></tr>
+        <tr><td class="mono">google</td><td>Google Gemini API</td></tr>
+        <tr><td class="mono">google-vertex</td><td>Google Vertex AI</td></tr>
+        <tr><td class="mono">amazon-bedrock</td><td>AWS Bedrock（100+ 模型）</td></tr>
+        <tr><td class="mono">azure-openai-responses</td><td>Azure OpenAI</td></tr>
+        <tr><td class="mono">github-copilot</td><td>GitHub Copilot 订阅</td></tr>
+        <tr><td class="mono">mistral</td><td>Mistral AI</td></tr>
+        <tr><td class="mono">groq</td><td>Groq 推理云</td></tr>
+        <tr><td class="mono">cerebras</td><td>Cerebras 推理云</td></tr>
+        <tr><td class="mono">xai</td><td>xAI（Grok 系列）</td></tr>
+        <tr><td class="mono">deepseek</td><td>DeepSeek</td></tr>
+        <tr><td class="mono">moonshotai / kimi-coding</td><td>月之暗面 Kimi</td></tr>
+        <tr><td class="mono">minimax</td><td>MiniMax</td></tr>
+        <tr><td class="mono">zai</td><td>智谱 GLM</td></tr>
+        <tr><td class="mono">qwen-token-plan</td><td>通义千问 Qwen</td></tr>
+        <tr><td class="mono">nvidia</td><td>NVIDIA NIM</td></tr>
+        <tr><td class="mono">huggingface</td><td>Hugging Face Inference</td></tr>
+        <tr><td class="mono">openrouter</td><td>OpenRouter 聚合路由（数百个模型）</td></tr>
+        <tr><td class="mono">together / fireworks / baseten</td><td>第三方推理平台</td></tr>
+        <tr><td class="mono">ollama / llama.cpp</td><td>本地模型（离线运行）</td></tr>
+        <tr><td class="mono">cloudflare-workers-ai / workers-ai-gateway</td><td>Cloudflare Workers AI / AI 网关</td></tr>
+        <tr><td class="mono">xiaomi</td><td>小米</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section style="margin-top:44px;">
+    <div class="cta">
+      <p class="kicker">CUSTOM MODELS</p>
+      <h2 class="h2" style="font-size:28px;">没找到你要的模型？</h2>
+      <p class="lead" style="margin:0 auto 24px;">通过 models.json 添加任意 OpenAI 兼容端点，或写一个自定义提供商接入私有模型。</p>
+      <div class="hero-links" style="margin-top:0;">
+        <a class="btn primary" href="/docs/models/">自定义模型文档 →</a>
+        <a class="btn" href="https://pi.dev/models" target="_blank" rel="noopener">查看实时目录（1300+）</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h4>Pi 中文站</h4>
+        <a href="/docs/">文档</a>
+        <a href="/news/">动态</a>
+        <a href="/packages/">软件包</a>
+        <a href="/models/">模型</a>
+      </div>
+      <div class="foot-col">
+        <h4>项目</h4>
+        <a href="https://github.com/earendil-works/pi" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.npmjs.com/package/@earendil-works/pi-coding-agent" target="_blank" rel="noopener">npm</a>
+        <a href="https://discord.gg/3cU7Bz4UPx" target="_blank" rel="noopener">Discord</a>
+        <a href="https://x.com/pidotdev" target="_blank" rel="noopener">X (@pidotdev)</a>
+      </div>
+      <div class="foot-col">
+        <h4>相关</h4>
+        <a href="https://pi.dev" target="_blank" rel="noopener">pi.dev（英文原站）</a>
+        <a href="https://earendil.com" target="_blank" rel="noopener">Earendil Inc.</a>
+        <a href="https://github.com/earendil-works/pi/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+      </div>
+    </div>
+    <p class="foot-note">
+      本站是 Pi（<a href="https://pi.dev" target="_blank" rel="noopener">pi.dev</a>，由 Earendil Inc. 与贡献者开发，MIT 协议）的社区中文翻译站，用于方便中文读者阅读其文档，非官方站点。文档内容依据 MIT 协议翻译发布，版权归原作者所有；如与英文原文有出入，以英文原文为准。
+    </p>
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+</body>
+</html>
