@@ -1,6 +1,6 @@
 /* 构建脚本：docs-md/*.md → dist/docs/<slug>/index.html，并复制静态资源 */
 import { marked } from "marked";
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, cpSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, cpSync, existsSync, statSync } from "node:fs";
 import { join, dirname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -236,6 +236,27 @@ try {
 } catch (e) {
   console.warn("releases 列表注入失败:", e.message);
 }
+
+/* sitemap.xml：列出全部可收录页面（不含 404），lastmod 取源文件修改时间 */
+const SITE_URL = "https://chinese.pi.tools-online.site";
+const sitemapEntries = [["/", join(root, "site", "index.html")]];
+for (const slug of ORDER) {
+  sitemapEntries.push([slug === "index" ? "/docs/" : `/docs/${slug}/`, join(docsDir, `${slug}.md`)]);
+}
+for (const section of ["news", "packages", "models"]) {
+  sitemapEntries.push([`/${section}/`, join(root, "site", section, "index.html")]);
+}
+const urls = sitemapEntries
+  .map(([path, src]) => {
+    const lastmod = statSync(src).mtime.toISOString().slice(0, 10);
+    return `  <url><loc>${SITE_URL}${path}</loc><lastmod>${lastmod}</lastmod></url>`;
+  })
+  .join("\n");
+writeFileSync(
+  join(dist, "sitemap.xml"),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
+);
+console.log(`sitemap.xml: ${sitemapEntries.length} URLs`);
 
 /* 404 页 */
 if (!existsSync(join(dist, "404.html"))) {
