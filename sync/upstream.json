@@ -13,12 +13,12 @@
       "fetchedAt": "2026-09-19"
     },
     "providers": {
-      "sha": "bae375e086608e8238b971550e4fab5fa4af00bf",
-      "fetchedAt": "2026-09-19"
+      "sha": "ab23d2f35d58a735ccefcdb983244b00bfdc8791",
+      "fetchedAt": "2026-09-20"
     },
     "models": {
-      "sha": "b855ca8e4d142e7e2272fdf79003bba71cb83751",
-      "fetchedAt": "2026-09-19"
+      "sha": "58da1a03115fc837092effcc8076280acbd63dcd",
+      "fetchedAt": "2026-09-20"
     },
     "custom-provider": {
       "sha": "1fc471bd033a92ef34d1eb9806eeb704206ca6dd",
@@ -121,5 +121,5 @@
       "fetchedAt": "2026-09-08"
     }
   },
-  "latestRelease": "v0.85.1"
+  "latestRelease": "v0.86.1"
 }

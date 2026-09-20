@@ -1,5 +1,17 @@
 [
   {
+    "tag": "v0.86.1",
+    "name": "v0.86.1",
+    "date": "2026-09-20",
+    "url": "https://github.com/earendil-works/pi/releases/tag/v0.86.1"
+  },
+  {
+    "tag": "v0.86.0",
+    "name": "v0.86.0",
+    "date": "2026-09-19",
+    "url": "https://github.com/earendil-works/pi/releases/tag/v0.86.0"
+  },
+  {
     "tag": "v0.85.1",
     "name": "v0.85.1",
     "date": "2026-09-05",
@@ -46,17 +58,5 @@
     "name": "v0.83.0",
     "date": "2026-07-29",
     "url": "https://github.com/earendil-works/pi/releases/tag/v0.83.0"
-  },
-  {
-    "tag": "v0.82.1",
-    "name": "v0.82.1",
-    "date": "2026-07-25",
-    "url": "https://github.com/earendil-works/pi/releases/tag/v0.82.1"
-  },
-  {
-    "tag": "v0.82.0",
-    "name": "v0.82.0",
-    "date": "2026-07-24",
-    "url": "https://github.com/earendil-works/pi/releases/tag/v0.82.0"
   }
 ]
