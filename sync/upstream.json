@@ -45,8 +45,8 @@
       "fetchedAt": "2026-09-08"
     },
     "extensions": {
-      "sha": "b45163108c7a422a9269f0f0235af2af70331057",
-      "fetchedAt": "2026-09-19"
+      "sha": "89afa48637d1b60da3039730fdc76ca470da12ee",
+      "fetchedAt": "2026-09-21"
     },
     "skills": {
       "sha": "02835f82005407b44887f27bca8517ba58dd624b",
@@ -69,16 +69,16 @@
       "fetchedAt": "2026-09-19"
     },
     "compaction": {
-      "sha": "cdc94931e419ea16761c66a4a6d17115ae0d1d0e",
-      "fetchedAt": "2026-09-10"
+      "sha": "861dcf0a63567e3aec020ce2413b3fb6cfbdfef9",
+      "fetchedAt": "2026-09-21"
     },
     "session-format": {
-      "sha": "c3811c636fe10bd185232c3be79e3f5225fc0fac",
-      "fetchedAt": "2026-09-19"
+      "sha": "522cf60d73c472cbe6c02c8adc6483807cf8444c",
+      "fetchedAt": "2026-09-21"
     },
     "sdk": {
-      "sha": "aaa41531708c9ba624e7e7841bbee6cc16aff086",
-      "fetchedAt": "2026-09-16"
+      "sha": "a830fe682f8c6a4c10eb2c27da020248683db0a1",
+      "fetchedAt": "2026-09-21"
     },
     "rpc": {
       "sha": "d81c23bbf33917d1d319aa7bb460f05639cfb515",
@@ -121,5 +121,5 @@
       "fetchedAt": "2026-09-08"
     }
   },
-  "latestRelease": "v0.86.1"
+  "latestRelease": "v0.87.0"
 }
