@@ -1,167 +1,122 @@
-# 快速上手
+# 快速入门
 
-本页带你从安装走到第一次真正有用的 Pi 会话。
+Pi 在您的终端中运行，并处理您机器上的文件。要使用它，您需要通过受支持的提供商访问模型。这可以是订阅、API 密钥或本地模型。
 
-## 安装
+对于原生 Windows 设置，请阅读 [Windows 设置](/docs/windows/)。对于 Android，请阅读 [Termux 设置](/docs/termux/)。
 
-Pi 以 npm 包的形式分发：
+## 1. 安装 Pi
+
+在 macOS 或 Linux 上，您可以使用安装程序：
+
+```bash
+curl -fsSL https://pi.dev/install.sh | sh
+```
+
+或者，通过 npm 安装 Pi。这需要 Node.js 22.19 或更高版本：
 
 ```bash
 npm install -g --ignore-scripts @earendil-works/pi-coding-agent
 ```
 
-`--ignore-scripts` 会在安装期间禁用依赖的生命周期脚本。Pi 在正常的 npm 安装中不需要安装脚本。
+Pi 的正常 npm 安装不需要依赖生命周期脚本。
 
-### 卸载
-
-用安装时对应的包管理器卸载。curl 安装脚本走的是 npm 全局安装，所以 curl 和 npm 安装都用 npm 移除：
+验证安装：
 
 ```bash
-# curl 安装脚本或 npm install -g
-npm uninstall -g @earendil-works/pi-coding-agent
-
-# pnpm
-pnpm remove -g @earendil-works/pi-coding-agent
-
-# Yarn
-yarn global remove @earendil-works/pi-coding-agent
-
-# Bun
-bun uninstall -g @earendil-works/pi-coding-agent
+pi --version
 ```
 
-卸载 Pi 不会删除 `~/.pi/agent/` 下的设置、凭据、会话和已安装的 Pi 软件包。
+## 2. 启动 Pi
 
-在你希望它工作的项目目录里启动：
+切换到您希望 Pi 工作的文件夹，然后启动它：
 
 ```bash
-cd /path/to/project
+cd /path/to/folder
 pi
 ```
 
-## 认证
+工作文件夹有助于 Pi 发现相关文件、指令和配置。Pi 还使用它来分组保存会话。
 
-Pi 既可以通过 `/login` 使用订阅类提供商，也可以通过环境变量或认证文件使用 API Key 类提供商。
+<p align="center"><img src="images/interactive-mode.png" alt="Pi 在终端中运行，包含对话、输入编辑器和状态页脚" width="750"></p>
 
-### 方式一：订阅登录
+界面显示您的对话、用于提示词和命令的编辑器，以及包含当前文件夹、模型和会话状态的页脚。参见 [在终端中使用 Pi](/docs/usage/) 了解如何添加文件、运行命令、引导持续工作以及管理结果。
 
-启动 Pi 后运行：
+## 3. 选择模型
+
+**模型**生成 Pi 的回复。**提供商**是 Pi 用于访问该模型的服务或账户。
+
+在 Pi 中，运行：
 
 ```text
 /login
 ```
 
-然后选择一个提供商。内置的订阅登录包括 Claude Pro/Max、ChatGPT Plus/Pro（Codex）和 GitHub Copilot。
+选择一个提供商，然后按照提示使用订阅或存储 API 密钥。之后如果你想选择其他可用的模型，可以运行 `/model`。
 
-### 方式二：API Key
+参见[选择模型和提供商](/docs/models/)了解支持的提供商、环境变量认证、本地模型和自定义端点。
 
-启动 Pi 之前设置好 API Key：
+## 4. 给 Pi 分配任务
 
-```bash
-export ANTHROPIC_API_KEY=sk-ant-...
-pi
-```
+Pi 会展示它执行的每次文件读取、搜索、命令和编辑操作。它不会在每次工具调用前都征求许可。
 
-也可以运行 `/login` 并选择 API Key 类提供商，把 Key 保存到 `~/.pi/agent/auth.json`。
-
-全部受支持的提供商、环境变量与云端配置见[提供商](/docs/providers/)。
-
-## 第一次会话
-
-Pi 启动后，输入一个请求并回车：
+输入一个与你工作匹配的任务，例如：
 
 ```text
-总结一下这个仓库，并告诉我怎么运行它的检查。
+总结 @meeting-notes.md 并将行动项保存到 action-items.md。
 ```
-
-默认情况下，Pi 给模型四个工具：
-
-- `read` —— 读取文件
-- `write` —— 创建或覆盖文件
-- `edit` —— 以补丁方式修改文件
-- `bash` —— 运行 shell 命令
-
-另外还有几个内置只读工具（`grep`、`find`、`ls`），可通过工具选项开启。Pi 在当前工作目录中运行，可以修改其中的文件。想要随时回滚，建议配合 git 或其他检查点机制使用。
-
-## 给 Pi 项目说明
-
-Pi 启动时会加载上下文文件。在项目里放一个 `AGENTS.md`，告诉它这个项目该怎么干活：
-
-```markdown
-# 项目说明
-
-- 改完代码后运行 `npm run check`。
-- 不要在本地跑生产库迁移。
-- 回答保持简洁。
-```
-
-Pi 会加载：
-
-- `~/.pi/agent/AGENTS.md` —— 全局说明
-- 上级目录和当前目录中的 `AGENTS.md` 或 `CLAUDE.md`
-
-如果某个目录里存在 `AGENTS.override.md`，Pi 会用它替代该目录的 `AGENTS.md` 或 `CLAUDE.md`。
-
-改完上下文文件后，重启 Pi 或运行 `/reload`。
-
-## 常见玩法
-
-### 引用文件
-
-在编辑器里输入 `@` 可以模糊搜索文件，也可以直接在命令行传入：
-
-```bash
-pi @README.md "总结一下这个"
-pi @src/app.ts @src/app.test.ts "把这两个放在一起评审"
-```
-
-图片或文本可以用 Ctrl+V 粘贴（Windows 上是 Alt+V）；在支持的终端里图片也可以直接拖进来。
-
-### 运行 shell 命令
-
-在交互模式中：
 
 ```text
-!npm run lint
+解释这个仓库的结构以及如何运行其检查。
 ```
 
-命令输出会发送给模型。用 `!!命令` 可以在不把输出加入模型上下文的情况下运行命令。
+```text
+比较 @previous.csv 与 @current.csv 并总结重要变化。
+```
 
-### 切换模型
+在编辑器中输入 `@` 来搜索文件，而不是输入其完整路径。当 Pi 完成后，审查其响应及任何更改的文件。对于重要工作，请使用版本控制或备份。对于不受信任或无人值守的工作，请使用容器或其他沙箱。参见 [安全](/docs/security/)。
 
-用 `/model` 或 Ctrl+L 为当前会话选择模型。在模型选择器里按 Ctrl+S 可以把高亮的模型保存为启动默认。`/thinking` 用于选择当前会话的思考等级，同样可用 Ctrl+S 保存默认；Shift+Tab 循环切换思考等级。Ctrl+P / Shift+Ctrl+P 在常用模型之间轮换。
+## 稍后继续
 
-### 稍后继续
-
-会话会自动保存：
+Pi 会自动保存会话。退出 Pi 后，使用以下命令恢复同一工作文件夹的最近会话：
 
 ```bash
-pi -c                  # 继续最近一次会话
-pi -r                  # 浏览历史会话
-pi --name "我的任务"    # 启动时设置会话显示名
-pi --session <路径|id>  # 打开指定会话
+pi --continue
 ```
 
-在 Pi 内部，用 `/resume`、`/new`、`/tree`、`/fork` 和 `/clone` 管理会话。
+使用 `/resume` 选择其他已保存的会话。有关会话命名、分支、压缩、导出和共享，请参阅 [继续或分支会话](/docs/sessions/)。
 
-### 非交互模式
+## 后续步骤
 
-一次性提示词：
+- [交互式使用 Pi](/docs/usage/) 了解输入、命令、快捷键及排队消息。
+- [添加指令](configuration.md#context-files)，让 Pi 在文件夹中工作时始终遵循。
+- [选择模型与提供商](/docs/models/)。
+
+### 如何自定义 Pi
+
+从满足需求的最轻量机制开始：
+
+| 需求 | 起始方式 |
+|---|---|
+| 为文件夹提供 Pi 的持久指令 | [`AGENTS.md`](configuration.md#context-files) |
+| 从 `/` 菜单复用提示词 | [提示词模板](/docs/prompt-templates/) |
+| 添加任务特定指令和支持文件 | [技能](/docs/skills/) |
+| 添加可执行工具、命令或事件处理器 | [扩展](/docs/extensions/) |
+| 构建自定义终端组件 | [终端界面](/docs/tui/) |
+| 连接不支持的模型服务 | [自定义提供商](/docs/custom-provider/) |
+| 安装或分发多个资源 | [Pi 软件包](/docs/packages/) |
+
+## 卸载 Pi
+
+如果你通过 npm 安装了 Pi，请运行：
 
 ```bash
-pi -p "总结一下这个代码库"
-cat README.md | pi -p "总结这段文字"
-pi -p @screenshot.png "这张图里有什么？"
+npm uninstall -g @earendil-works/pi-coding-agent
 ```
 
-用 `--mode json` 得到 JSON 事件输出，或用 `--mode rpc` 做进程集成。
+如果你使用了安装器，请重新运行它并选择 **卸载 Pi**：
 
-## 下一步
+```bash
+curl -fsSL https://pi.dev/install.sh | sh
+```
 
-- [使用 Pi](/docs/usage/) —— 交互模式、斜杠命令、会话、上下文文件与 CLI 参考。
-- [提供商](/docs/providers/) —— 认证与模型配置。
-- [设置](/docs/settings/) —— 全局与项目配置。
-- [键位绑定](/docs/keybindings/) —— 快捷键与自定义。
-- [Pi 软件包](/docs/packages/) —— 安装共享的扩展、技能、提示词与主题。
-
-平台说明：[Windows](/docs/windows/)、[Termux](/docs/termux/)、[tmux](/docs/tmux/)、[终端设置](/docs/terminal-setup/)、[Shell 别名](/docs/shell-aliases/)。
+这两种方法都不会移除 `~/.pi/agent/` 中的配置、凭据、会话或已安装的 Pi 软件包。

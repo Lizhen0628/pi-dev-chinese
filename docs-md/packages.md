@@ -1,228 +1,127 @@
 # Pi 软件包
 
-> Pi 可以帮你创建 Pi 软件包——让它把你的扩展、技能、提示词模板或主题打包。
+Pi 软件包将扩展、技能、提示词模板和主题作为一个整体进行安装与分发。当某项定制需要通过 npm 或 git 共享，或当多个资源归属于同一集合时，可使用软件包。
 
-Pi 软件包把扩展、技能、提示词模板和主题打包在一起，通过 npm 或 git 分享。软件包在 `package.json` 的 `pi` 键下声明资源，或使用约定目录。
+软件包是一个普通目录或 npm 软件包。它可以暴露常规的资源目录，在 `package.json` 的 `pi` 键下声明显式路径，并携带自身的运行时依赖。
 
-## 目录
+## 安装和管理软件包
 
-- [安装与管理](#安装与管理)
-- [包来源](#包来源)
-- [创建 Pi 软件包](#创建-pi-软件包)
-- [包结构](#包结构)
-- [依赖](#依赖)
-- [包过滤](#包过滤)
-- [启用与禁用资源](#启用与禁用资源)
-- [作用域与去重](#作用域与去重)
-
-## 安装与管理
-
-> **安全提示：** Pi 软件包以完整系统权限运行。扩展执行任意代码，技能可指示模型执行包括运行可执行文件在内的任何操作。安装第三方包前请审查其源码。
+从 npm、git 或本地路径安装：
 
 ```bash
-pi install npm:@foo/bar@1.0.0
-pi install git:github.com/user/repo@v1
-pi install https://github.com/user/repo  # 原生 URL 也可以
-pi install /absolute/path/to/package
-pi install ./relative/path/to/package
-
-pi remove npm:@foo/bar
-pi list                     # 显示设置中已安装的软件包
-pi update                   # 只更新 pi
-pi update --all             # 更新 pi、更新软件包并对齐固定的 git 引用
-pi update --extensions      # 只更新软件包并对齐固定的 git 引用
-pi update --models          # 只刷新模型目录
-pi update --self            # 只更新 pi
-pi update --self --force    # 即使是最新版也重装 pi
-pi update npm:@foo/bar      # 更新单个软件包
-pi update --extension npm:@foo/bar
+pi install npm:@example/pi-tools@1.0.0
+pi install git:github.com/example/pi-tools@v1
+pi install ./local-package
 ```
 
-这些命令管理 Pi 软件包，`pi update` 也可以更新 pi CLI 安装。对实验性的安装器托管安装，`pi update` 会把目标版本安装进一个由 lockfile 支撑的暂存版本，验证通过后才激活；更新失败时当前版本不受影响。托管安装不支持 `--force`；如需修复请重新运行安装器。卸载 Pi 见[快速上手](/docs/quickstart/)。
+`pi list` 显示已配置的软件包。使用 `pi remove <source>` 移除某个软件包，使用 `pi update --extensions` 协调软件包安装。有关所有软件包命令和选项，请参阅 [命令行](cli.md#package-commands)。
 
-默认情况下，`install` 和 `remove` 写入用户设置（`~/.pi/agent/settings.json`）。用 `-l` 改为写入项目设置（`.pi/settings.json`）。项目设置可以和团队共享；项目被信任后，Pi 启动时会自动安装其中缺失的软件包。
+个人安装会写入 `~/.pi/agent/settings.json`。添加 `--local` 或 `-l` 可将软件包声明写入 `.pi/settings.json`。Pi 仅在授予项目信任后才读取该文件中的声明。
 
-想先试用再安装，用 `--extension` 或 `-e`：它会安装到临时目录，仅本次运行有效：
+项目软件包仅在项目信任解决后才安装和加载。软件包可以执行扩展代码，并可能包含指示模型运行程序的技能。安装第三方软件包前请审查其源代码。授予项目信任前请审查项目软件包声明。
+
+使用 `--extension` 或 `-e` 可在单次调用中试用软件包，而无需将其添加到设置中：
 
 ```bash
-pi -e npm:@foo/bar
-pi -e git:github.com/user/repo
+pi -e npm:@example/pi-tools
 ```
 
-## 包来源
+## 选择来源
 
-设置和 `pi install` 接受三种来源类型。
+| 来源 | 示例 | 行为 |
+|---|---|---|
+| npm | `npm:@example/pi-tools@1.0.0` | 安装到 Pi npm 目录下 |
+| git | `git:github.com/example/pi-tools@v1` | 克隆并同步到所选引用 |
+| URL | `https://github.com/example/pi-tools` | 视为 git 来源 |
+| 本地 | `./pi-tools` | 从解析路径加载，不进行复制 |
 
-### npm
+带版本的 npm 规范会被固定。Git 标签和提交也会被固定；软件包更新会同步检出内容，但不会移动已配置的引用。
 
+相对本地路径从包含它们的设置文件解析。文件路径加载一个扩展。目录遵循常规软件包发现规则。
+
+## 创建软件包
+
+最简单的软件包使用常规目录结构：
+
+```text
+my-pi-package/
+├── package.json
+├── extensions/
+├── skills/
+├── prompts/
+└── themes/
 ```
-npm:@scope/pkg@1.2.3
-npm:pkg
-```
 
-- 带版本号的规格会被固定，软件包更新会跳过它们（`pi update --extensions`、`pi update --all`）。
-- 用户级安装位于 `~/.pi/agent/npm/`。
-- 项目级安装位于 `.pi/npm/`。
-- 在 `settings.json` 中设置 `npmCommand`，可以把 npm 包的查询和安装固定到某个包装命令，如 `mise` 或 `asdf`。
+如果没有 `pi` 清单，Pi 会从这些目录中发现 TypeScript 和 JavaScript 扩展、技能目录、Markdown 提示词模板以及 JSON 主题。
 
-示例：
+当资源位于其他位置或需要过滤时，请使用显式清单：
 
 ```json
 {
-  "npmCommand": ["mise", "exec", "node@20", "--", "npm"]
-}
-```
-
-### git
-
-```
-git:github.com/user/repo@v1
-git:git@github.com:user/repo@v1
-https://github.com/user/repo@v1
-ssh://git@github.com/user/repo@v1
-```
-
-- 不带 `git:` 前缀时只接受协议 URL（`https://`、`http://`、`ssh://`、`git://`）。
-- 带 `git:` 前缀时接受简写格式，包括 `github.com/user/repo` 和 `git@github.com:user/repo`。
-- HTTPS 与 SSH URL 都支持。
-- SSH URL 自动使用你配置的 SSH 密钥（遵守 `~/.ssh/config`）。
-- 非交互运行（如 CI）时，可设 `GIT_TERMINAL_PROMPT=0` 禁用凭据询问，并设 `GIT_SSH_COMMAND`（如 `ssh -o BatchMode=yes -o ConnectTimeout=5`）实现快速失败。
-- 引用固定为标签或提交。`pi update --extensions` 和 `pi update --all` 不会把它们移动到更新的引用，但会把已有克隆对齐到配置的引用。
-- 用 `pi install git:host/user/repo@新引用` 更新设置并把已有软件包移到新的固定引用。
-- 克隆到 `~/.pi/agent/git/<host>/<path>`（全局）或 `.pi/git/<host>/<path>`（项目）。
-- 对齐导致检出内容变化时，Pi 会重置并清理克隆，若存在 `package.json` 再运行 `npm install`。
-
-**SSH 示例：**
-```bash
-# git@host:path 简写（需要 git: 前缀）
-pi install git:git@github.com:user/repo
-
-# ssh:// 协议格式
-pi install ssh://git@github.com/user/repo
-
-# 带版本引用
-pi install git:git@github.com:user/repo@v1.0.0
-```
-
-### 本地路径
-
-```
-/absolute/path/to/package
-./relative/path/to/package
-```
-
-本地路径指向磁盘上的文件或目录，添加到设置时不做复制。相对路径相对于它所在的设置文件解析。路径是文件时作为单个扩展加载；是目录时按软件包规则加载资源。
-
-## 创建 Pi 软件包
-
-在 `package.json` 里加一个 `pi` 清单，或使用约定目录。加上 `pi-package` 关键词以便被目录收录。
-
-```json
-{
-  "name": "my-package",
+  "name": "my-pi-package",
   "keywords": ["pi-package"],
   "pi": {
-    "extensions": ["./extensions"],
-    "skills": ["./skills"],
-    "prompts": ["./prompts"],
-    "themes": ["./themes"]
+    "extensions": ["./src/extension.ts"],
+    "skills": ["./resources/skills"],
+    "prompts": ["./resources/prompts/*.md"],
+    "themes": ["./resources/themes/*.json"]
   }
 }
 ```
 
-路径相对于包根目录。数组支持 glob 模式和 `!` 排除。正向清单 glob 按字典序发现可见路径；点开头的路径需直接列出；如果某个 glob 需要穿过符号链接继续匹配，请直接列出符号链接的资源根。
+路径相对于软件包根目录。数组支持 glob 模式及排除项。对于以点开头或符号链接的资源根目录，如果通过 glob 遍历无法发现，请直接列出。
 
-### 目录页元数据
+`pi-package` 关键字使 npm 软件包有资格在 [Pi 软件包画廊](https://pi.dev/packages) 中被发现。可选的 `pi.image` 和 `pi.video` 字段用于添加画廊预览。
 
-[软件包目录](https://pi.dev/packages)展示带 `pi-package` 标签的包。加 `video` 或 `image` 字段可以显示预览：
+## 声明依赖关系
 
-```json
-{
-  "name": "my-package",
-  "keywords": ["pi-package"],
-  "pi": {
-    "extensions": ["./extensions"],
-    "video": "https://example.com/demo.mp4",
-    "image": "https://example.com/screenshot.png"
-  }
-}
-```
+将扩展运行时导入的软件包放入 `dependencies` 中。Pi 在安装 npm 或 git 源时，会同时安装软件包依赖。
 
-- **video**：仅 MP4。桌面上悬停自动播放，点击打开全屏播放器。
-- **image**：PNG、JPEG、GIF 或 WebP，作为静态预览展示。
+Pi 向扩展和技能提供以下软件包：
 
-两者都设置时视频优先。
+- `@earendil-works/pi-ai`
+- `@earendil-works/pi-agent-core`
+- `@earendil-works/pi-coding-agent`
+- `@earendil-works/pi-tui`
+- `typebox`
 
-## 包结构
+在 `peerDependencies` 中以 `"*"` 版本范围声明导入的 Pi 软件包，且不要将其打包。其他用作依赖的 Pi 软件包必须包含在发布的压缩包中，并通过其 `node_modules` 资源路径引用。
 
-### 约定目录
+已安装的软件包以独立的模块根加载。不要依赖两个软件包共享一个依赖实例，或一个软件包解析另一个软件包未声明的依赖。
 
-没有 `pi` 清单时，Pi 从这些目录自动发现资源：
+## 选择软件包资源
 
-- `extensions/` 加载 `.ts` 和 `.js` 文件
-- `skills/` 递归查找含 `SKILL.md` 的目录，并把顶级 `.md` 文件作为技能加载
-- `prompts/` 加载 `.md` 文件
-- `themes/` 加载 `.json` 文件
-
-## 依赖
-
-第三方运行时依赖应放进 `package.json` 的 `dependencies`。不注册扩展、技能、提示词模板或主题的依赖也放在 `dependencies`。Pi 从 npm 或 git 安装软件包时会运行 `npm install`，这些依赖会被自动安装。
-
-Pi 为扩展和技能内置了核心包。如果 import 了下列任何包，请把它们列入 `peerDependencies`（范围写 `"*"`）且不要打包：`@earendil-works/pi-ai`、`@earendil-works/pi-agent-core`、`@earendil-works/pi-coding-agent`、`@earendil-works/pi-tui`、`typebox`。
-
-其他 Pi 软件包必须打包进你的 tarball：加入 `dependencies` 和 `bundledDependencies`，然后通过 `node_modules/` 路径引用它们的资源。Pi 以独立模块根加载软件包，因此分开安装的包不会冲突或共享模块。
-
-示例：
-
-```json
-{
-  "dependencies": {
-    "shitty-extensions": "^1.0.1"
-  },
-  "bundledDependencies": ["shitty-extensions"],
-  "pi": {
-    "extensions": ["extensions", "node_modules/shitty-extensions/extensions"],
-    "skills": ["skills", "node_modules/shitty-extensions/skills"]
-  }
-}
-```
-
-## 包过滤
-
-在设置中用对象形式过滤软件包加载的内容：
+设置中的对象形式会缩小从软件包加载的资源范围：
 
 ```json
 {
   "packages": [
-    "npm:simple-pkg",
     {
-      "source": "npm:my-package",
+      "source": "npm:@example/pi-tools",
       "extensions": ["extensions/*.ts", "!extensions/legacy.ts"],
       "skills": [],
-      "prompts": ["prompts/review.md"],
-      "themes": ["+themes/legacy.json"]
+      "prompts": ["prompts/review.md"]
     }
   ]
 }
 ```
 
-`+路径` 和 `-路径` 是相对包根的精确路径。
+对于每种资源类型：
 
-- 省略某个键 = 加载该类型的全部内容。
-- `[]` = 该类型什么都不加载。
-- `!模式` 排除匹配项。
-- `+路径` 强制包含精确路径。
-- `-路径` 强制排除精确路径。
-- 过滤器叠加在清单之上，只能收窄已允许的范围。
+- 省略该属性以加载软件包允许的所有内容。
+- 使用 `[]` 不加载该类型的任何内容。
+- 使用 `!pattern` 排除匹配的 glob。
+- 使用 `+path` 包含一个确切允许的路径。
+- 使用 `-path` 排除一个确切的路径。
 
-## 启用与禁用资源
+过滤器会收窄软件包清单。它们不会暴露软件包本身未声明的资源。
 
-用 `pi config` 启用/禁用已安装软件包和本地目录中的扩展、技能、提示词模板与主题。`pi config` 默认打开全局设置（`~/.pi/agent/settings.json`）；按 Tab 在全局与项目本地模式间切换。`pi config -l` 则从项目覆盖（`.pi/settings.json`）开始，继承的全局资源会以暗色显示。
+运行 `pi config` 启用或禁用发现的资源。它从个人配置开始；按 Tab 切换范围，或运行 `pi config --local` 从项目覆盖开始。
 
-## 作用域与去重
+## 理解作用域与身份
 
-软件包可以同时出现在全局和项目设置中。同一个包两处都出现时，项目条目优先；除非项目条目设置了 `autoload: false`——此时它作为全局条目之上的增量生效。包的身份判定依据：
+同一软件包可同时出现在个人设置与项目设置中。项目条目通常取代个人条目。当设置 `autoload: false` 时，项目条目则作为个人软件包之上的过滤增量。
 
-- npm：包名
-- git：不含引用的仓库 URL
-- 本地：解析后的绝对路径
+Pi 通过软件包名称识别 npm 软件包，通过不含引用的仓库 URL 识别 git 软件包，通过解析后的绝对路径识别本地软件包。这避免了同一软件包因等效声明而被重复加载。
+
+在打包每个资源之前，请使用 [扩展](/docs/extensions/)、[技能](/docs/skills/)、[提示词模板](/docs/prompt-templates/) 和 [主题](/docs/themes/) 进行设计。

@@ -1,101 +1,109 @@
-# TUI 组件
+# 终端界面
 
-> Pi 可以创建 TUI 组件——把你的界面需求告诉它。
+`@earendil-works/pi-tui` 提供了 Pi 所使用的终端组件系统。当内置对话框、通知、状态文本和小组件不足以满足扩展所需的交互时，扩展可以使用该系统。
 
-扩展和自定义工具可以渲染自定义 TUI 组件构建交互界面。本页介绍组件系统与可用的积木。
+从[扩展](extensions.md#interact-with-the-user)的 `ctx.ui` 方法开始。仅当界面需要自己的渲染、键盘或鼠标输入、焦点、布局或生命周期时，才构建自定义组件。
 
-**源码：** [`@earendil-works/pi-tui`](https://github.com/earendil-works/pi/tree/main/packages/tui)
+## 选择集成点
 
-> 本文为结构化中文编译版；完整接口与示例代码见[英文原文](https://pi.dev/docs/latest/tui)。
+| 需求 | 使用方式 |
+|---|---|
+| 选择、确认、输入或多行编辑器 | `ctx.ui.select()`、`confirm()`、`input()` 或 `editor()` |
+| 非阻塞反馈 | `ctx.ui.notify()` 或 `setStatus()` |
+| 编辑器附近的持久内容 | `ctx.ui.setWidget()` |
+| 替换页眉、页脚或编辑器 | 相应的 `ctx.ui` 组件工厂 |
+| 临时交互式屏幕或覆盖层 | `ctx.ui.custom()` |
+| 工具或会话条目的自定义渲染 | 扩展渲染器 |
 
-## 组件接口
+这些 API 在需要时会接收 Pi 的活动主题和按键绑定。不要在扩展内部创建第二个终端渲染器。
 
-所有组件实现同一接口：
+## 理解组件模型
 
-| 方法 | 说明 |
-|------|------|
-| `render(width)` | 返回字符串数组（每行一个）。每行**不得超过 `width`** |
-| `handleInput?(data)` | 组件持有焦点时接收键盘输入 |
-| `handleMouse?(event)` | 全屏模式下接收归一化的指针输入 |
-| `wantsKeyRelease?` | 为 true 时接收按键释放事件（Kitty 协议）。默认 false |
-| `invalidate()` | 清除缓存的渲染状态；主题变化时被调用 |
+组件为可用宽度渲染一系列终端行。它可以选择性地处理键盘和鼠标输入，并且当状态或依赖主题的内容发生变化时，必须使缓存的输出失效。
 
-TUI 会在每行渲染结果末尾追加完整的 SGR 重置与 OSC 8 重置——样式不跨行。多行文本如需统一样式，请逐行重新应用，或使用 `wrapTextWithAnsi()` 让换行后的每行都保留样式。
+每个渲染行都必须适合提供的宽度。测量可见终端列数而不是字符串长度，因为 ANSI 转义、宽字符、emoji 和组合字符会改变显示宽度。
 
-## Focusable 接口（输入法支持）
+使用 `visibleWidth()`、`truncateToWidth()`、`sliceByColumn()` 和 `wrapTextWithAnsi()`，不要自己实现终端宽度处理。Pi 会在每行后重置样式和超链接，因此要在每个渲染行上重新应用样式。
 
-显示文本光标、需要 IME（输入法）支持的组件应实现 `Focusable` 接口。组件获得焦点时，TUI 会：
+更改组件状态后，使受影响的组件失效，并调用注入的 `tui.requestRender()`。TUI 会合并渲染请求并更新终端。
 
-1. 在组件上设置 `focused = true`
-2. 在渲染输出中扫描 `CURSOR_MARKER`（零宽 APC 转义序列）
-3. 把硬件终端光标定位到该位置
-4. 仅在 `showHardwareCursor` 开启时显示硬件光标
+## 组合内置组件
 
-光标默认隐藏：既保留"假光标"渲染，又能为用隐藏光标跟踪 IME 候选窗的终端定位硬件光标。部分终端需要可见的硬件光标才能定位 IME——用渲染器的 `showHardwareCursor` 构造参数或 `setShowHardwareCursor(true)` 开启；Pi 也会把 `PI_HARDWARE_CURSOR=1` 映射到该设置。内置的 `Editor` 和 `Input` 已实现此接口。
+该软件包包含常用布局和控件的组件：
 
-### 内嵌输入框的容器组件
+- `Text`、`Markdown`、`Image` 和 `TruncatedText` 用于渲染内容。
+- `Container`、`VStack`、`HStack`、`Box` 和 `Spacer` 用于组合布局。
+- `Input` 和 `Editor` 用于接受文本输入。
+- `SelectList` 和 `SettingsList` 实现可搜索的选择和设置流程。
+- `ScrollView` 提供有边界的可滚动视口。
+- `Loader` 和 `CancellableLoader` 用于报告进行中的工作。
+- `MouseRegion` 为其他组件添加指针行为。
 
-容器组件（对话框、选择器等）内含 `Input` 或 `Editor` 子组件时，容器必须实现 `Focusable` 并把焦点状态传播给子组件，否则 IME 输入的硬件光标定位会错位——不传播的话，用中文、日文、韩文等输入法打字时候选窗会出现在错误位置。
+优先使用这些组件，而不是重新构建选择、滚动、文本编辑或宽度处理功能。扩展示例展示了如何将它们与 Pi 的边框和主题结合使用。
 
-## 使用组件
+## 处理键盘输入与焦点
 
-- **扩展中**：经 `ctx.ui.custom()` 挂载
-- **自定义工具中**：同样经 `ctx.ui.custom()` 挂载
+使用 `matchesKey()` 和 `Key` 处理终端键盘输入。解析器会考虑受支持的终端协议和按键修饰符。扩展组件应使用注入的 `KeybindingsManager` 来处理可配置的应用程序操作。
 
-## 覆盖层（Overlay）
+显示文本光标的组件应实现 `Focusable`，并将 `CURSOR_MARKER` 紧邻其视觉光标之前放置。TUI 利用该标记定位硬件光标，以配合输入法编辑器使用。
 
-覆盖层在现有内容之上渲染组件而不清屏。`ctx.ui.custom()` 传 `{ overlay: true }` 即可。覆盖层有自己的焦点规则与生命周期（挂载、焦点进出、关闭回调），详见英文原文。
+包裹 `Input` 或 `Editor` 的容器必须将其 `focused` 状态传递给子组件。若不传递，中文、日文、韩文及其他 IME 候选窗口可能出现在错误的屏幕位置。
 
-## 内置组件
+替换主编辑器时，请扩展 Pi 的 `CustomEditor`。它保留了应用程序快捷键和代理控件。
 
-| 组件 | 用途 |
-|------|------|
-| `Text` | 静态文本（支持 ANSI 样式与自动换行） |
-| `Box` | 带边框容器 |
-| `Container` | 纵向堆叠子组件的容器 |
-| `Spacer` | 弹性空白 |
-| `Markdown` | Markdown 渲染 |
-| `Image` | 内联图片（终端支持时） |
+将编辑器不处理的按键转发给基类实现，并通过清除自定义编辑器工厂来恢复默认行为。
 
-另有 `SelectList`、`SettingsList`、`BorderedLoader`、`Input`、`Editor` 等高阶组件，覆盖常见交互。
+## 处理鼠标输入
 
-## 键盘与鼠标输入
+全屏模式将归一化的鼠标事件路由到组件。处理器可以标记事件已处理、捕获拖拽序列、请求焦点或请求渲染。
 
-键盘输入经 `handleInput` 接收原始字节序列；鼠标输入在全屏模式下经 `handleMouse` 接收归一化事件（点击、拖动、滚轮）。行宽处理与文本测量工具见英文原文。
+未处理的滚轮事件会滚动最近的 `ScrollView`。未处理的主按钮拖拽仍可用于转录选择。OSC 8 链接优先于包含它的点击区域。
 
-## 创建自定义组件
+常规模式将鼠标输入留给终端，因为终端拥有回滚缓冲区。即使在全屏鼠标输入可用时，也要为每次交互设计键盘路径。
 
-实现 `render(width)` 即可参与渲染循环；需要交互再加 `handleInput`/`handleMouse`。渲染是即时模式：每次失效后重新 `render`。
+## 使用自定义屏幕和覆盖层
 
-## 主题化
+`ctx.ui.custom()` 可临时将一个组件对交互区域的控制权释放，并在该组件调用提供的完成回调时解析。
 
-组件颜色从主题令牌解析（见[主题](/docs/themes/)）；主题切换时 TUI 调用所有组件的 `invalidate()` 并触发重渲染。
+传入 `overlay: true` 可在现有内容之上绘制。覆盖层选项控制尺寸、锚点、偏移、边距以及响应式可见性。交互仍处于活动状态时，覆盖层句柄可以改变焦点，或通过 `setHidden()` 临时隐藏和显示覆盖层。
 
-## 调试与性能
+聚焦的覆盖层在常规渲染期间保持输入所有权。如果覆盖层保持可见时，其他组件应接收输入，请通过句柄显式释放或重定向焦点。
 
-- **调试日志**：组件渲染问题可通过 TUI 的调试日志排查（环境变量见[环境变量](/docs/environment-variables/)）
-- **性能**：高耗渲染（大列表、语法高亮）应缓存结果并在 `invalidate()` 时清除
-- **失效与主题切换**：常见陷阱是缓存了带颜色的渲染结果；正确模式是"失效时重建"——主题切换后重新生成带样式的行。何时需要这一模式见英文原文
+将每个自定义组件实例视为属于一次交互。再次启动该交互时，创建新实例。
 
-## 常见模式
+通过提供给组件工厂的完成回调结束交互。它会解析 `ctx.ui.custom()` promise 并释放组件。请勿对由 `ctx.ui.custom()` 创建的覆盖层调用 `OverlayHandle.hide()`。
 
-官方文档覆盖了这些可直接套用的模式：
+有关定位、堆叠、焦点、响应式可见性和动画行为的说明，请参阅 [`overlay-qa-tests.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/overlay-qa-tests.ts)。
 
-1. **选择对话框**（SelectList）
-2. **可取消的异步操作**（BorderedLoader）
-3. **设置/开关列表**（SettingsList）
-4. **持久状态指示器**（含工作指示器自定义）
-5. **编辑器上下的挂件**（widgets）
-6. **自定义页脚**
-7. **自定义编辑器**（vim 模式等）
+## 使用主题
 
-## 关键规则
+请使用主题（theme）来渲染终端界面中所有带颜色的元素。在应用已注册的皮肤（skin）之上，主题与外壳（harness）协同工作。
 
-- 每行渲染输出不得超过给定 `width`
-- 样式不跨行，多行文本逐行应用
-- 含输入框的容器必须传播 `Focusable` 状态
-- 缓存渲染结果时，务必在 `invalidate()` 中清除
+利用外壳扩展（extension）提供的 `useTheme()` 钩子，或通过组件回调（callback）访问主题，即可便捷地在整个应用中使用主题样式。
 
-## 示例
+请勿将字符串永久存储为带主题颜色的形式，除非借助 `invalidate()` 来重新构建它们。主题切换时会清除渲染缓存，但无法移除已嵌入应用状态中的旧ANSI颜色。
 
-官方示例见 [examples/](https://github.com/earendil-works/pi/tree/main/packages/coding-agent/examples/)，其中 `snake.ts` 是完整的游戏 UI 示例。
+在渲染期间求值的主题回调（callback）无需特殊重建。无状态组件（Stateless components）也可以在每次渲染时重新计算带主题的输出。
+
+参考主题（Themes）文档来创建终端调色板。当渲染的 Markdown 需要与当前应用主题匹配时，请使用 Pi 的 `getMarkdownTheme()` 方法。
+
+## 保持渲染响应
+
+渲染运行在交互路径上。按宽度和内容缓存开销较大的布局与高亮工作，并在 `invalidate()` 中清除该缓存。
+
+保持默认视图紧凑，通过展开或专用屏幕呈现细节。对于自定义工具渲染，处理部分结果，并在可安全更新时复用之前的组件。
+
+诊断渲染问题时，使用 `PI_TUI_WRITE_LOG` 捕获原始 ANSI 流。测试窄宽度、宽字符、调整大小事件、主题更改、焦点切换，以及常规和全屏两种模式。
+
+## 示例与源码
+
+已检查的扩展示例覆盖了主要模式：
+
+- [`preset.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/preset.ts) 与 [`tools.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/tools.ts) 使用选择与设置列表。
+- [`qna.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/qna.ts) 使用可取消的异步界面。
+- [`modal-editor.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/modal-editor.ts) 替换编辑器。
+- [`custom-footer.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/custom-footer.ts) 替换页脚。
+- [`widget-placement.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/widget-placement.ts) 在编辑器周围放置固定内容。
+- [`doom-overlay/`](https://github.com/earendil-works/pi/tree/main/packages/coding-agent/examples/extensions/doom-overlay/) 演示了连续渲染的覆盖层。
+
+公共导出定义于 [`packages/tui/src/index.ts`](https://github.com/earendil-works/pi/blob/main/packages/tui/src/index.ts)。参见 [扩展](/docs/extensions/) 了解扩展生命周期、状态、工具、事件与模式行为。

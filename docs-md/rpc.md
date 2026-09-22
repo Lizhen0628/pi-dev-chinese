@@ -1,125 +1,191 @@
 # RPC 模式
 
-RPC 模式通过 stdin/stdout 上的 JSON 协议无头运行编码智能体，适合把智能体嵌入其他应用、IDE 或自定义 UI。
+RPC 模式将 Pi 作为长期运行的子进程，通过 stdin 和 stdout 上的 JSON 记录进行控制。它适用于语言无关的集成、进程隔离、IDE 和自定义用户界面。
 
-**Node.js/TypeScript 用户请注意**：如果你在写 Node.js 应用，优先考虑直接使用 `@earendil-works/pi-coding-agent` 的 `AgentSession`，而不是派生子进程。基于子进程的 TypeScript 客户端可参考 [`src/modes/rpc/rpc-client.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/rpc/rpc-client.ts)。
+对于进程内的 Node.js 或 Bun 集成，请优先使用 [SDK](/docs/sdk/)。对于基于子进程的 TypeScript 集成，请优先使用导出的 `RpcClient`，它会启动 Pi、关联响应、提供类型化命令方法，并将事件传递给监听器。
 
-> 本文为结构化中文编译版；完整命令/事件负载与类型见[英文原文](https://pi.dev/docs/latest/rpc)。
+| 接口 | 进程边界 | 控制模型 | 最佳适用场景 |
+|---|---|---|---|
+| [SDK](/docs/sdk/) | 进程内 | 直接 TypeScript 方法和事件 | 需要完整 API 访问权限的 Node.js 或 Bun 主机 |
+| RPC | 子进程 | JSONL 命令、响应和事件 | 其他语言、隔离进程、IDE 或自定义客户端 |
 
 ## 启动 RPC 模式
 
 ```bash
-pi --mode rpc
+pi --mode rpc --no-session
 ```
 
-常用选项：
+常规 CLI 选项仍用于选择工作文件夹、模型、工具、资源和会话行为。常用选项包括 `--provider`、`--model`、`--name`、`--no-session` 和 `--session-dir`。完整且与版本相关的接口请参阅 [命令行](/docs/cli/)；对于已安装版本，`pi --help` 为权威参考。
 
-- `--provider <名称>`：设置 LLM 提供商（anthropic、openai、google 等）
-- `--model <模式>`：模型模式或 ID（支持 `provider/id` 与可选 `:<思考等级>`）
-- `--name <名称>` / `-n <名称>`：启动时设置会话显示名
-- `--no-session`：禁用会话持久化
-- `--session-dir <路径>`：自定义会话存储目录
+RPC 模式不接受 `@file` 提示词参数。请改用 [`prompt`](rpc-commands.md#prompt) 命令发送提示词。
 
-## 协议概览
+## 协议记录
 
-- **命令**：发到 stdin 的 JSON 对象，每行一个
-- **响应**：带 `type: "response"` 的 JSON 对象，表示命令成功/失败
-- **事件**：以 JSON 行流式输出到 stdout 的智能体事件
+协议包含四种记录类型：
 
-所有命令都支持可选 `id` 字段用于请求/响应关联；对应响应会带相同 `id`。`bash_execution_update` 事件也带其来源 `bash` 命令的 `id`。
+| 方向 | 记录 | 用途 |
+|---|---|---|
+| stdin | Command | 请求 Pi 进行提示、检查状态、更改配置或管理会话 |
+| stdout | `response` | 报告命令是否成功并返回命令数据 |
+| stdout | 会话事件 | 流式传输运行、消息、工具、队列、压缩和重试活动 |
+| 双向 | 扩展界面记录 | 在 Pi 与客户端之间转发支持的扩展交互 |
 
-### 帧
+规范的记录定义参见 [RPC 命令](/docs/rpc-commands/)、[JSON 事件流](/docs/json/) 和 [RPC 扩展界面](/docs/rpc-extension-ui/)。
 
-RPC 模式使用严格的 JSONL 语义，只以 LF（`\n`）作为记录分隔符：
+### 关联命令与响应
 
-- 只按 `\n` 切分记录
-- 接受可选的 `\r\n` 输入（去掉行尾 `\r`）
-- 不要使用会把 Unicode 分隔符当换行的通用行读取器
+每条命令都可接受一个可选的字符串 `id`。对应的响应会原样返回该 ID：
 
-特别地，Node 的 `readline` 不符合 RPC 协议——它还会按 `U+2028` 和 `U+2029` 切分，而这两个字符在 JSON 字符串里是合法的。
+```json
+{"id":"req-1","type":"get_state"}
+{"id":"req-1","type":"response","command":"get_state","success":true,"data":{"...":"..."}}
+```
 
-## 命令
+当可能有多个命令同时处于未完成状态时，应使用唯一 ID。命令处理是异步的，因此客户端应依据 ID 而非响应顺序进行关联。
 
-### 提示类
+会话事件通常不包含命令 ID，因为它们描述的是会话活动本身。`bash_execution_update` 是个例外：当源 [`bash`](rpc-commands.md#bash) 命令带有 ID 时，其输出事件会重复该 ID。
 
-#### prompt
+`extension_ui_response` 使用其对应的 `extension_ui_request` 所提供的 ID。它不产生普通的命令响应。
 
-向智能体发送用户提示词。响应在提示词被接受、排队或处理后发出；事件在接受之后继续异步流式输出。可带 `images`（`ImageContent` 格式：`{"type": "image", "data": "base64...", "mimeType": "image/png"}`）。
+## 帧格式
 
-**流式期间**：智能体正在流式输出时必须指定 `streamingBehavior`：
+RPC 采用严格的 JSONL 帧格式。每条记录写入一个完整的 JSON 对象，并以 LF（`\n`）结尾。将标准输出作为字节流或 UTF-8 流读取，仅按 LF 分割记录。可选地去除前置的回车符，以接受 CRLF 输入。
 
-- `"steer"`：消息排队，在当前助手回合执行完工具调用后、下一次 LLM 调用前投递
-- `"followUp"`：等智能体全部结束后才投递
+不要使用将 Unicode 行分隔符或段落分隔符视为记录边界的通用行读取器。特别是，Node.js 的 `readline` 也会在 `U+2028` 和 `U+2029` 处分割，而这些字符在 JSON 字符串中是合法的。
 
-流式期间未指定该选项时命令返回错误。
+持续读取标准输出。Pi 会尊重标准输出的背压，但停止读取的客户端可能导致进程停滞。写入命令时，请尊重标准输入的背压。标准输出仅用于协议记录；诊断信息和应用程序日志应输出到标准错误。
 
-**扩展命令**（如 `/mycommand`）即使在流式期间也立即执行，其 LLM 交互由扩展经 `pi.sendMessage()` 自行管理。技能命令（`/skill:名称`）与提示词模板在发送/排队前展开。
+## 运行生命周期
 
-`success: true` 表示提示词被接受、排队或立即处理；`success: false` 表示接受前被拒绝。接受之后的失败走正常事件与消息流，不会对同一请求 id 再发第二条 `response`。
+一次成功的 `prompt` 响应意味着提示词已被接受、排队或处理。它并不代表模型工作已完成：
 
-#### steer / followUp
+```json
+{"id":"req-2","type":"prompt","message":"Review this repository"}
+{"id":"req-2","type":"response","command":"prompt","success":true}
+```
 
-智能体运行中排队引导消息（steer）或结束后投递的追问消息（followUp）。技能命令与模板会展开；steer 不允许扩展命令（请用 `prompt`）。
+在该响应之后继续消费[事件](/docs/json/)。`agent_end` 标志着一次底层代理运行的结束，但重试、溢出恢复、压缩、引导或追问工作仍可能继续。当客户端需要知道 Pi 不会自动继续时，请等待 `agent_settled`。
 
-### 状态类
+在发送提示词之前订阅，以避免错过快速完成。`RpcClient.promptAndWait()` 会在内部执行此操作。如果使用单独的 `RpcClient` 调用，请在 `prompt()` 之前安装事件监听器，并且仅在运行处于活动状态时调用 `waitForIdle()`。
 
-- `get_state` —— 读取当前会话状态（模型、思考等级、队列等）
-- `get_messages` —— 获取当前消息列表
-- `abort` / `abort_all` —— 中止当前运行/全部排队
-- `set_queue_modes` —— 设置 steer/followUp 投递模式
+## 错误
 
-### 模型与思考
+命令失败时返回一个包含 `success: false` 的响应：
 
-- `set_model` —— 切换提供商/模型
-- `list_models` —— 列出可用模型
-- `set_thinking_level` —— 设置思考等级
+```json
+{"id":"req-3","type":"response","command":"set_model","success":false,"error":"Model not found: invalid/model"}
+```
 
-### 压缩与重试
+格式错误的 JSON 会产生解析响应，且不包含请求 ID：
 
-- `compact` —— 手动触发压缩，可带自定义指令
-- 自动重试相关事件见下文事件列表
+```json
+{"type":"response","command":"parse","success":false,"error":"Failed to parse command: Unexpected token..."}
+```
 
-### Bash
+成功响应仅覆盖命令处理本身。提示词被接受后出现的提供商故障与中止，会反映在消息和事件流中。
 
-- `bash` —— 执行 shell 命令；其输出更新以 `bash_execution_update` 事件流式返回（带命令 `id`）
+客户端还必须处理子进程启动失败、意外退出、stderr 诊断信息、取消操作以及自身的超时截止时间。切勿将 stderr 当作协议数据来解析。
 
-### 会话
+## 关机
 
-- `new_session` / `fork_session` / `switch_session` / `import_session` —— 会话生命周期操作
-- `get_session_info` —— 会话文件、ID、用量等信息
+关闭子进程的标准输入以请求有序关机。Pi 会在退出前处理当前活动的运行时。客户端仍应处理进程信号和意外退出。
 
-### 命令枚举
+扩展也可以通过其扩展上下文请求关机。Pi 在当前命令执行完毕后，或在当前活动运行发出 `agent_settled` 后完成关机。
 
-- `get_commands` —— 获取可用斜杠命令/扩展命令列表
-- `execute_command` —— 执行指定命令
+## 最小客户端
 
-## 事件
+这个 Python 示例使用二进制管道读取器，按 LF 分割数据，不将 Unicode 分隔符视为协议边界：
 
-### 事件类型
+```python
+import json
+import subprocess
 
-| 事件 | 说明 |
-|------|------|
-| `agent_start` / `agent_end` | 智能体运行开始/结束 |
-| `agent_settled` | 智能体完全空闲（队列清空） |
-| `turn_start` / `turn_end` | 回合开始/结束 |
-| `message_start` / `message_end` | 消息开始/结束 |
-| `message_update` | 流式增量更新（文本/思考/工具调用增量） |
-| `bash_execution_update` | 用户 bash 命令的流式输出 |
-| `tool_execution_start` / `tool_execution_update` / `tool_execution_end` | 工具执行生命周期 |
-| `queue_update` | 引导/追问队列变化 |
-| `compaction_start` / `compaction_end` | 压缩开始/结束 |
-| `auto_retry_start` / `auto_retry_end` | 智能体级自动重试开始/结束 |
-| `summarization_retry_scheduled` / `summarization_retry_attempt_start` / `summarization_retry_finished` | 摘要重试生命周期 |
-| `extension_error` | 扩展错误上报 |
+process = subprocess.Popen(
+    ['pi', '--mode', 'rpc', '--no-session'],
+    stdin=subprocess.PIPE,
+    stdout=subprocess.PIPE,
+)
 
-## 扩展 UI 协议
+assert process.stdin is not None
+assert process.stdout is not None
 
-扩展的自定义 UI 在 RPC 模式下经协议转发：stdout 发出扩展 UI 请求（选择、确认、输入等），客户端以对应响应（stdin）回答。请求/响应负载与交互序列见英文原文的 Extension UI Protocol 一节。
+command = {'id': 'prompt-1', 'type': 'prompt', 'message': 'Hello'}
+process.stdin.write(json.dumps(command).encode('utf-8') + b'\n')
+process.stdin.flush()
 
-## 错误处理
+while line := process.stdout.readline():
+    record = json.loads(line)
+    if record.get('type') == 'message_update':
+        update = record['assistantMessageEvent']
+        if update['type'] == 'text_delta':
+            print(update['delta'], end='', flush=True)
+    elif record.get('type') == 'agent_settled':
+        print()
+        break
 
-命令失败时响应带 `success: false` 与错误信息；接受后的运行失败经事件流报告。
+process.stdin.close()
+process.wait()
+```
 
-## 类型
+对于受维护的 TypeScript 客户端，请使用检查过的 [RPC 客户端示例](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/rpc-client.ts)。该示例需要构建好的 Pi CLI，因为仓库示例指向 `dist/cli.js`。
 
-RPC 载荷复用会话消息类型（`Model`、`UserMessage`、`AssistantMessage`、`ToolResultMessage`、`BashExecutionMessage`），与[会话格式](/docs/session-format/)一致；完整 TypeScript 定义见英文原文。
+## 参考
+
+- [RPC 命令](/docs/rpc-commands/)：所有标准输入命令及其响应
+- [JSON 事件流](/docs/json/)：共享的标准输出会话事件与流式重建
+- [RPC 扩展界面](/docs/rpc-extension-ui/)：对话框、通知、响应及限制
+- [消息类型](/docs/message-types/)：响应和事件使用的消息与内容块
+- [会话文件格式](/docs/session-format/)：会话命令返回的条目
+- [`rpc-types.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/rpc/rpc-types.ts)：导出的 TypeScript 协议定义
+- [`RpcClient`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/rpc/rpc-client.ts)：子进程客户端实现
+
+## 迁移后的参考锚点
+
+本页原先包含的详细参考资料现已移至专属页面。以下锚点用于保留原有链接。
+
+<a id="prompt"></a>
+<a id="steer"></a>
+<a id="follow_up"></a>
+<a id="abort"></a>
+<a id="clear_queue"></a>
+<a id="new_session"></a>
+<a id="get_state"></a>
+<a id="get_messages"></a>
+<a id="set_model"></a>
+<a id="cycle_model"></a>
+<a id="get_available_models"></a>
+<a id="set_thinking_level"></a>
+<a id="cycle_thinking_level"></a>
+<a id="get_available_thinking_levels"></a>
+<a id="set_steering_mode"></a>
+<a id="set_follow_up_mode"></a>
+<a id="compact"></a>
+<a id="set_auto_compaction"></a>
+<a id="set_auto_retry"></a>
+<a id="abort_retry"></a>
+<a id="bash"></a>
+<a id="abort_bash"></a>
+<a id="get_session_stats"></a>
+<a id="export_html"></a>
+<a id="switch_session"></a>
+<a id="fork"></a>
+<a id="clone"></a>
+<a id="get_fork_messages"></a>
+<a id="get_entries"></a>
+<a id="get_tree"></a>
+<a id="get_last_assistant_text"></a>
+<a id="set_session_name"></a>
+<a id="get_commands"></a>
+
+命令详情已移至 [RPC 命令](/docs/rpc-commands/)。
+
+<a id="message_update-streaming"></a>
+<a id="bash_execution_update"></a>
+<a id="compaction_start--compaction_end"></a>
+<a id="summarization_retry_scheduled--summarization_retry_attempt_start--summarization_retry_finished"></a>
+
+事件详情已移至 [JSON 事件流](/docs/json/)。
+
+<a id="extension-ui-protocol"></a>
+
+扩展交互详情已移至 [RPC 扩展 UI](/docs/rpc-extension-ui/)。

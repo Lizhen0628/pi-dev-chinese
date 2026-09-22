@@ -1,12 +1,12 @@
-# llama.cpp
+# 使用 llama.cpp 运行本地模型
 
-Pi 支持 [llama.cpp](https://github.com/ggml-org/llama.cpp) 的路由服务器。路由器可以发现多个 GGUF 模型并按需加载/卸载。
+Pi 支持 [llama.cpp](https://github.com/ggml-org/llama.cpp) 路由器服务器。该路由器能够发现多个 GGUF 模型，并按需加载或卸载它们。
 
-请使用带路由支持的较新 llama.cpp 构建。参考[构建说明](https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md)自行编译，或安装对应平台的[预构建版本](https://github.com/ggml-org/llama.cpp/releases)。
+请使用支持路由器功能的当前 llama.cpp 构建版本。按照 [构建说明](https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md) 操作，或为您的平台安装 [预构建版本](https://github.com/ggml-org/llama.cpp/releases)。
 
 ## 启动路由器
 
-不带 `--model` 或 `-m` 启动 `llama-server`。传了模型参数就会进入单模型模式而不是路由模式。
+启动 `llama-server` 时不带 `--model` 或 `-m` 参数。传入模型会启动单模型模式而非路由器模式。
 
 ```bash
 llama-server \
@@ -22,12 +22,12 @@ llama-server \
 重要选项：
 
 - `--models-dir ~/models` 发现本地 GGUF 文件。
-- `--no-models-autoload` 让加载始终通过 `/llama` 显式进行。
-- `--jinja` 启用兼容的聊天模板与工具调用。
-- `-ngl 999` 尽可能多地把层卸载到 GPU。
-- `-c 32768` 设置每个已加载模型的上下文窗口。省略则用模型原生上下文，但可能需要多得多的内存。
+- `--no-models-autoload` 保持通过 `/llama` 显式加载。
+- `--jinja` 启用兼容的聊天模板和工具调用。
+- `-ngl 999` 尽可能多地将层卸载到 GPU。
+- `-c 32768` 为每个加载的模型设置上下文窗口。省略它则使用模型的原生上下文，这可能需要更多的内存。
 
-单文件模型直接放在模型目录即可。多模态和多分片模型放到单独的子目录：
+单文件模型可以直接放在模型目录中。将多模态和多分片模型放在单独的子目录中：
 
 ```text
 ~/models/
@@ -41,7 +41,7 @@ llama-server \
     └── large-model-Q4_K_M-00003-of-00003.gguf
 ```
 
-手动添加文件后重启路由器。按模型设置上下文大小等选项，用 [llama.cpp 模型预设](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md#model-presets)。
+手动添加文件后重启路由器。有关每个模型的上下文大小和其他选项，请参阅 [llama.cpp 模型预设](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md#model-presets)。
 
 ## 配置 Pi
 
@@ -51,11 +51,11 @@ llama-server \
 /login llama.cpp
 ```
 
-输入路由器 URL 和可选的 API Key。默认 URL 是 `http://127.0.0.1:8080`。
+输入路由器 URL 和可选的 API 密钥。默认 URL 为 `http://127.0.0.1:8080`。
 
-路由器以 `--no-models-autoload` 启动时，`/login llama.cpp` 只保存连接。用 `/llama` 加载模型，再用 `/model` 把它选为当前会话的模型。
+如果你使用 `--no-models-autoload` 启动路由器，`/login llama.cpp` 仅存储连接。运行 `/llama` 加载模型，然后使用 `/model` 为当前会话选择已加载的模型。
 
-也可以不用 `/login`，直接用环境变量：
+环境变量可以配置相同的值，而无需使用 `/login`：
 
 ```bash
 export LLAMA_BASE_URL=http://127.0.0.1:8080
@@ -63,7 +63,7 @@ export LLAMA_API_KEY=optional-secret
 pi
 ```
 
-服务器启用 API Key 时，`llama-server` 启动参数带上对应的 `--api-key`。本地专用请保持 `--host 127.0.0.1`。
+如果服务器使用 API 密钥，请使用匹配的 `--api-key` 值启动 `llama-server`。保持 `--host 127.0.0.1` 以仅限本地访问。
 
 ## 管理模型
 
@@ -73,29 +73,29 @@ pi
 /llama
 ```
 
-- 选择未加载的模型以加载它。
-- 选择已加载的模型以卸载它。
-- 选择 **Download model…**，搜索 Hugging Face，选择仓库与量化版本。也支持精确的 `owner/repository[:quant]` 写法。
-- 加载或下载过程中按 Escape 确认取消。
+- 选择一个未加载的模型以加载它。
+- 选择一个已加载的模型以卸载它。
+- 选择 **下载模型…**，搜索 Hugging Face，然后选择仓库和量化。精确的 `owner/repository[:quant]` 值也可以使用。
+- 在加载或下载过程中按 Escape 键以确认取消。
 
-Hugging Face 搜索依次使用 `HF_TOKEN`、`$HF_TOKEN_PATH`、`$HF_HOME/token`、`$XDG_CACHE_HOME/huggingface/token` 和 `~/.cache/huggingface/token`。不认证也能搜索，只是速率限制更低。下载受限（gated）仓库前 Pi 会警告并附上其访问页面。下载由 llama.cpp 服务器执行，因此所选仓库需要授权时，服务器进程也必须有 `HF_TOKEN`。
+Hugging Face 搜索在设置时使用 `HF_TOKEN`，然后检查 `$HF_TOKEN_PATH`、`$HF_HOME/token`、`$XDG_CACHE_HOME/huggingface/token` 和 `~/.cache/huggingface/token`。搜索也可以在无认证的情况下工作，但速率限制较低。Pi 在下载受限仓库前会发出警告，并链接到它们的访问页面。llama.cpp 服务器执行下载，因此当所选仓库需要访问权限时，其进程也必须具有 `HF_TOKEN`。
 
-还有其他模型在加载时，Pi 会询问是先卸载它们还是保持加载。Pi 不会悄悄卸载模型，也从不删除模型文件。路由器可能与其他客户端共享，所以 `/llama` 总是显示路由器的当前状态。
+如果加载了其他模型，Pi 会询问是否先卸载它们或保持加载。Pi 不会静默卸载模型，也从不删除模型文件。路由可能与其他客户端共享，因此 `/llama` 始终显示路由的当前状态。
 
-`/model` 只列出已加载的模型。加载后运行 `/model` 把它选为当前 Pi 会话的模型。
+已加载和休眠的模型出现在 `/model` 中。休眠模型在选中时会自动唤醒。启用路由自动加载后，未加载的预设模型也会出现，并在选中时加载。使用 `--no-models-autoload` 时，先通过 `/llama` 加载模型，然后再选择它。
 
-路由器断开时，`/llama` 显示 **Retry** 和 **Close**。Retry 会重连并刷新模型状态，不会重放被中断的操作。
+如果路由断开，`/llama` 显示 **重试** 和 **关闭**。重试会重新连接并刷新模型状态，而不重放中断的操作。
 
 ## 故障排查
 
-确认路由器可达：
+检查路由器是否可达：
 
 ```bash
 curl http://127.0.0.1:8080/health
 curl http://127.0.0.1:8080/models
 ```
 
-- **`/llama` 里没有模型：** 检查 `--models-dir` 和目录布局，重启路由器。
-- **`/model` 里缺模型：** 先用 `/llama` 加载。
-- **加载失败或内存占用过高：** 调小 `-c`，或先卸载另一个模型。
-- **服务器不在路由模式：** 不要带 `--model`、`-m` 或 `-hf` 启动。
+- **`/llama` 中没有模型：** 检查 `--models-dir`、目录结构，并重启路由器。
+- **使用 `--no-models-autoload` 时 `/model` 中缺少模型：** 先用 `/llama` 加载它。
+- **加载失败或内存占用过高：** 降低 `-c` 或卸载另一个模型。
+- **服务器未处于路由器模式：** 启动时不要使用 `--model`、`-m` 或 `-hf`。

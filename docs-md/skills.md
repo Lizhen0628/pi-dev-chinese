@@ -1,232 +1,93 @@
-# 技能（Skills）
+# 技能
 
-> Pi 可以自己创建技能——让你的使用场景直接告诉它，让它写一个。
+技能为 Pi 提供针对特定类型工作的专门指令和支持文件。Pi 通过名称和描述展示每个可用技能，仅在任务需要时才加载其完整指令。
 
-技能是智能体按需加载的自包含能力包。一个技能为特定任务提供专门的工作流、安装说明、辅助脚本和参考文档。
+当工作流需要的上下文比提示词模板更多，但又不需要新的可执行集成点时，可以使用技能。技能可将脚本、参考资料和资产与其指令捆绑在一起。
 
-Pi 实现了 [Agent Skills 标准](https://agentskills.io/specification)，对大多数违规项给出警告但保持宽容。技能名可以与父目录名不同（标准不允许这一点）；因为该规则对跨多个智能体外壳共享的技能目录并不友好，Pi 选择了放宽。
+Pi 实现了 [Agent 技能规范](https://agentskills.io/specification)。大多数字段无效时会产生警告，而不会阻止启动。
 
-## 目录
+## 创建技能
 
-- [存放位置](#存放位置)
-- [工作原理](#工作原理)
-- [技能命令](#技能命令)
-- [技能结构](#技能结构)
-- [Frontmatter](#frontmatter)
-- [校验](#校验)
-- [示例](#示例)
-- [技能仓库](#技能仓库)
+技能是包含 `SKILL.md` 的目录：
 
-## 存放位置
-
-> **安全提示：** 技能可以指示模型执行任何操作，并可能包含模型会调用的可执行代码。使用前请审查技能内容。
-
-Pi 从以下位置加载技能：
-
-- 全局：
-  - `~/.pi/agent/skills/`
-  - `~/.agents/skills/`
-- 项目（仅在项目被信任后）：
-  - `.pi/skills/`
-  - 当前目录及祖先目录中的 `.agents/skills/`（上溯到 git 仓库根；不在仓库中则到文件系统根）
-- 软件包：`skills/` 目录或 `package.json` 中的 `pi.skills` 条目
-- 设置：`skills` 数组（文件或目录）
-- CLI：`--skill <路径>`（可重复；即使加了 `--no-skills` 也照常加载）
-
-发现规则：
-- 在 `~/.pi/agent/skills/` 和 `.pi/skills/` 中，根级 `.md` 文件若带有合法技能 frontmatter 且 `description` 非空，会作为独立技能被发现
-- 在所有技能位置，包含 `SKILL.md` 的目录会被递归发现
-- 在 `~/.agents/skills/` 和项目 `.agents/skills/` 中，根级 `.md` 文件被忽略，但分组文件夹内声明了技能 frontmatter 的嵌套 `.md` 会被发现
-- 其他不像技能的根级 Markdown 文件会被静默忽略
-
-用 `--no-skills` 可禁用发现（显式 `--skill` 路径仍然加载）。
-
-### 使用其他外壳的技能
-
-想用 Claude Code 或 OpenAI Codex 的技能，把它们的目录加进设置即可：
-
-```json
-{
-  "skills": [
-    "~/.claude/skills",
-    "~/.codex/skills"
-  ]
-}
-```
-
-项目级的 Claude Code 技能，加到 `.pi/settings.json`：
-
-```json
-{
-  "skills": ["../.claude/skills"]
-}
-```
-
-## 工作原理
-
-1. 启动时，Pi 扫描技能位置，提取名称与描述
-2. 系统提示按[规范](https://agentskills.io/integrate-skills)以 XML 格式列出可用技能
-3. 任务匹配时，智能体用 `read`（不可用时用 `bash`）加载完整 SKILL.md（模型不总是主动去读；用提示词引导或 `/skill:名称` 强制加载）
-4. 智能体按说明执行，用相对路径引用脚本和资源
-
-这就是渐进式披露：上下文中常驻的只有描述，完整说明按需加载。
-
-## 技能命令
-
-技能会注册为 `/skill:名称` 命令：
-
-```bash
-/skill:brave-search           # 加载并执行技能
-/skill:pdf-tools extract      # 带参数加载技能
-```
-
-命令后的参数会以 `User: <参数>` 的形式追加到技能内容后面。
-
-在交互模式通过 `/settings`，或在 `settings.json` 中开关技能命令：
-
-```json
-{
-  "enableSkillCommands": true
-}
-```
-
-## 技能结构
-
-技能就是一个带 `SKILL.md` 的目录，其余内容随意组织。
-
-```
-my-skill/
-├── SKILL.md              # 必需：frontmatter + 说明
-├── scripts/              # 辅助脚本
-│   └── process.sh
-├── references/           # 按需加载的详细文档
-│   └── api-reference.md
+```text
+pdf-tools/
+├── SKILL.md
+├── scripts/
+│   └── extract.sh
+├── references/
+│   └── formats.md
 └── assets/
     └── template.json
 ```
 
-### SKILL.md 格式
-
-````markdown
----
-name: my-skill
-description: 这个技能做什么、什么时候用。要写具体。
----
-
-# 我的技能
-
-## 安装
-
-首次使用前运行一次：
-```bash
-cd /path/to/skill && npm install
-```
-
-## 用法
-
-```bash
-./scripts/process.sh <input>
-```
-````
-
-在技能内部用相对路径引用：
+以 frontmatter 开头，后接直接指令，开始编写 `SKILL.md`：
 
 ```markdown
-详见[参考指南](references/REFERENCE.md)。
-```
-
-## Frontmatter
-
-依照 [Agent Skills 规范](https://agentskills.io/specification#frontmatter-required)：
-
-| 字段 | 必需 | 说明 |
-|------|------|------|
-| `name` | 是 | 最长 64 字符；小写字母、数字、连字符。与标准不同，Pi 不要求它与父目录名一致——那条标准规则对共享技能目录并不友好。 |
-| `description` | 是 | 最长 1024 字符。技能做什么、什么时候用。 |
-| `license` | 否 | 许可证名称或对随附文件的引用。 |
-| `compatibility` | 否 | 最长 500 字符。环境要求。 |
-| `metadata` | 否 | 任意键值映射。 |
-| `allowed-tools` | 否 | 空格分隔的预批准工具列表（实验性）。 |
-| `disable-model-invocation` | 否 | 为 `true` 时技能不出现在系统提示中，只能用 `/skill:名称` 调用。 |
-
-### 名称规则
-
-- 1-64 个字符
-- 只能小写字母、数字、连字符
-- 不能以连字符开头或结尾
-- 不能有连续连字符
-Pi 不要求名称与父目录一致。Agent Skills 标准有此要求，但该要求对多工具共享的技能目录并不友好。
-
-合法：`pdf-processing`、`data-analysis`、`code-review`
-非法：`PDF-Processing`、`-pdf`、`pdf--processing`
-
-### 描述的最佳实践
-
-描述决定了智能体什么时候加载这个技能，要写具体。
-
-好的写法：
-```yaml
-description: 从 PDF 文件中提取文本和表格、填写 PDF 表单、合并多个 PDF。处理 PDF 文档时使用。
-```
-
-差的写法：
-```yaml
-description: 帮你处理 PDF。
-```
-
-## 校验
-
-Pi 按 Agent Skills 标准校验技能。大多数问题只警告，技能仍会加载：
-
-- 名称超过 64 字符或含非法字符
-- 名称以连字符开头/结尾或有连续连字符
-- 描述超过 1024 字符
-
-未知的 frontmatter 字段会被忽略。
-
-声明了技能但缺少描述的不加载。格式错误的 `SKILL.md` 和没有描述的 `SKILL.md` 会警告且不加载。其他没有合法技能 frontmatter 的 Markdown 文件被忽略。
-
-名称冲突（不同位置出现同名技能）会警告并保留先发现的那个。
-
-## 示例
-
-```
-brave-search/
-├── SKILL.md
-├── search.js
-└── content.js
-```
-
-**SKILL.md：**
-````markdown
 ---
-name: brave-search
-description: 通过 Brave Search API 进行网页搜索与内容提取。查找文档、事实或任意网页内容时使用。
+name: pdf-tools
+description: 从 PDF 文件中提取文本和表格。在阅读、转换或检查 PDF 时使用。
 ---
 
-# Brave Search
+# PDF 工具
 
-## 安装
-
-```bash
-cd /path/to/brave-search && npm install
+在转换文档前，先阅读 `references/formats.md`。运行脚本时，请相对于此技能目录执行。
 ```
 
-## 搜索
+描述决定了模型何时考虑加载该技能。既要说明技能的功能，也要说明其适用场景。避免使用诸如“帮助处理 PDF”之类的描述，这类描述无法提供足够的路由信息。
 
-```bash
-./search.js "查询词"              # 基本搜索
-./search.js "查询词" --content    # 包含网页内容
+引用捆绑文件时，请使用相对于技能目录的路径。Pi 会告知模型技能所在位置，以便其解析这些路径。
+
+## 了解技能如何加载
+
+启动时，Pi 会扫描配置的技能位置，并将每个技能的名称、描述和路径添加到系统提示中。它不会添加完整的指令。
+
+当任务匹配时，模型会读取 `SKILL.md` 并遵循其指令。这样可以在需要之前将详细指导排除在上下文之外。模型可能无法加载相关技能，因此当您需要强制加载时，请使用 `/skill:name`。
+
+`/skill:name` 之后的参数会作为用户请求附加到加载的指令中：
+
+```text
+/skill:pdf-tools extract report.pdf
 ```
 
-## 提取网页内容
+当技能仅应通过其显式命令可用时，请在 front-matter 中设置 `disable-model-invocation: true`。`enableSkillCommands` [设置](/docs/settings/) 控制技能命令是否出现在交互式命令发现中；手动输入的 `/skill:name` 命令仍然有效。
 
-```bash
-./content.js https://example.com
-```
-````
+<a id="choose-where-it-loads"></a>
 
-## 技能仓库
+## 将其添加到 Pi
 
-- [Anthropic Skills](https://github.com/anthropics/skills) —— 文档处理（docx、pdf、pptx、xlsx）、Web 开发
-- [Pi Skills](https://github.com/badlogic/pi-skills) —— 网页搜索、浏览器自动化、Google API、转写
+将技能放在你的用户或项目技能目录中。包含 `SKILL.md` 的目录会被递归发现。
+
+Pi 还支持代理技能位置 `~/.agents/skills/` 和 `.agents/skills/`。项目 `.agents/skills/` 目录会从工作目录通过其祖先目录被发现，在存在仓库根目录时停止。
+
+Pi 接受一些独立的 Markdown 技能，但包含 `SKILL.md` 的目录是可移植的形式，应优先使用。参见 [设置](settings.md#resources) 和 [Pi 软件包](/docs/packages/) 了解额外位置。
+
+项目技能可以指示模型运行脚本或修改文件。在授予项目信任之前，审查不熟悉的技能及其支持文件。
+
+## 编写可移植的 frontmatter
+
+Agent Skills 规范定义了以下字段：
+
+| 字段 | 用途 |
+|---|---|
+| `name` | 命令和显示名称 |
+| `description` | 提供给模型的路由描述 |
+| `license` | 许可证名称或捆绑的许可证文件 |
+| `compatibility` | 环境要求 |
+| `metadata` | 附加的键值元数据 |
+| `allowed-tools` | 实验性的预批准工具列表 |
+| `disable-model-invocation` | 将技能从自动模型选择中隐藏 |
+
+名称使用小写字母、数字和连字符，没有前导、尾随或连续连字符。它们最多可以包含 64 个字符；描述最多可以包含 1024 个。
+
+Pi 在声明的名称与父目录不同时既不要求也不警告。其他 Agent Skills 实现可能会强制执行该要求，因此匹配的名称仍然是可移植的选择。
+
+格式错误的 `SKILL.md` 文件和没有描述声明的技能不会被加载。名称冲突保留第一个发现的技能并产生警告。
+
+## 验证并分享技能
+
+从技能可被发现的位置运行 Pi，然后检查启动诊断和 `/skill:name` 命令。在活动会话中编辑技能后运行 `/reload`。
+
+使用 [Pi 软件包](/docs/packages/) 通过 npm 或 git 分发一个或多个技能。将环境配置保留在技能内部，并在软件包中声明所需的运行时依赖。
+
+示例请参见 [Anthropic 技能合集](https://github.com/anthropics/skills) 和 [Pi 技能合集](https://github.com/badlogic/pi-skills)。

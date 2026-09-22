@@ -1,125 +1,158 @@
 {
   "files": {
     "index": {
-      "sha": "c09cfc9a76e9e7859f909c37df236be597896353",
-      "fetchedAt": "2026-09-08"
+      "sha": "2f5e31155b72e1a1f6db03612f1a0f6c0eec2edb",
+      "fetchedAt": "2026-09-22"
     },
     "quickstart": {
-      "sha": "1b84fe4df3927566f097b93aa49ce743e6850a34",
-      "fetchedAt": "2026-09-08"
+      "sha": "891f21b31444bad05d1e50c7f890a069b9c69a31",
+      "fetchedAt": "2026-09-22"
     },
     "usage": {
-      "sha": "ebacbd17e2eed18a6dc238bf3417f3a3e3544cba",
-      "fetchedAt": "2026-09-19"
+      "sha": "b949aef8c6b51520d71d652939be1ed413f589fc",
+      "fetchedAt": "2026-09-22"
     },
     "providers": {
-      "sha": "ab23d2f35d58a735ccefcdb983244b00bfdc8791",
-      "fetchedAt": "2026-09-20"
+      "sha": "23cc86e0915246b5e4649119559225a76ce6ee26",
+      "fetchedAt": "2026-09-22"
     },
     "models": {
-      "sha": "58da1a03115fc837092effcc8076280acbd63dcd",
-      "fetchedAt": "2026-09-20"
+      "sha": "1561ca0911727f7d46b78cdcd8b719b4fa05b8fc",
+      "fetchedAt": "2026-09-22"
     },
     "custom-provider": {
-      "sha": "1fc471bd033a92ef34d1eb9806eeb704206ca6dd",
-      "fetchedAt": "2026-09-19"
+      "sha": "ae17b48c0871ffabb636b78fda69c4e1b43eb8eb",
+      "fetchedAt": "2026-09-22"
     },
     "settings": {
-      "sha": "e4c67cdacab5e67937a254bf8ff5b753dbb30052",
-      "fetchedAt": "2026-09-19"
+      "sha": "465a45007d898af334788465630c1d3dd43bb87d",
+      "fetchedAt": "2026-09-22"
     },
     "keybindings": {
-      "sha": "e2ae16b1a20f15c072711e8a3901e955cd102f21",
-      "fetchedAt": "2026-09-08"
+      "sha": "eb25606b3eb60f89bae3d4b866da05daf5ab5fb1",
+      "fetchedAt": "2026-09-22"
     },
     "environment-variables": {
-      "sha": "955fcfa86543c60d21cb1cd4161baab718553eca",
-      "fetchedAt": "2026-09-19"
+      "sha": "521352438e118be16e7cc0ccff6e9eb2a80722d8",
+      "fetchedAt": "2026-09-22"
     },
     "security": {
-      "sha": "1e59301bf4d959b2cf6816602f0c8fee83e95f7a",
-      "fetchedAt": "2026-09-08"
+      "sha": "6178dd6c903e137d7dbad575ebb2bb132b3c06ec",
+      "fetchedAt": "2026-09-22"
     },
     "containerization": {
-      "sha": "b83d69e39cd25b0c5cdf33803d4dfa93f6a5b876",
-      "fetchedAt": "2026-09-08"
+      "sha": "f65b94e8fde1b63a641105ba86c8874f6827f2a7",
+      "fetchedAt": "2026-09-22"
     },
     "extensions": {
-      "sha": "89afa48637d1b60da3039730fdc76ca470da12ee",
-      "fetchedAt": "2026-09-21"
+      "sha": "9a3d064542ed6c21c995a317e03f1f473d623446",
+      "fetchedAt": "2026-09-22"
     },
     "skills": {
-      "sha": "02835f82005407b44887f27bca8517ba58dd624b",
-      "fetchedAt": "2026-09-08"
+      "sha": "19d2bf28910ce49caaaf4dde86d1e96330ca7b31",
+      "fetchedAt": "2026-09-22"
     },
     "prompt-templates": {
-      "sha": "073b9f00abdb2c921dd7bacda53d69e56bd941ee",
-      "fetchedAt": "2026-09-08"
+      "sha": "8fee1a3fe60f731a51a113d34da4fd406d5576fe",
+      "fetchedAt": "2026-09-22"
     },
     "themes": {
-      "sha": "3259877e264b8c8c5162ff59f71d0756a3674ef3",
-      "fetchedAt": "2026-09-08"
+      "sha": "b8887915be3d2bbba787318c375edf7bc17acd92",
+      "fetchedAt": "2026-09-22"
     },
     "packages": {
-      "sha": "cadeb18673a08b8f2812510abac3a5a33804b4a9",
-      "fetchedAt": "2026-09-08"
+      "sha": "018eb219e65861fec2e82c400f74f5e5e107c09f",
+      "fetchedAt": "2026-09-22"
     },
     "sessions": {
-      "sha": "7afd786d89cf84f5baf272a364da7c27b695e94b",
-      "fetchedAt": "2026-09-19"
+      "sha": "3fc232b28659431473189bc69e3c583fc5dca567",
+      "fetchedAt": "2026-09-22"
     },
     "compaction": {
-      "sha": "861dcf0a63567e3aec020ce2413b3fb6cfbdfef9",
-      "fetchedAt": "2026-09-21"
+      "sha": "a702f7b6e04723c5f353593c031b1fe76b522048",
+      "fetchedAt": "2026-09-22"
     },
     "session-format": {
-      "sha": "522cf60d73c472cbe6c02c8adc6483807cf8444c",
-      "fetchedAt": "2026-09-21"
+      "sha": "f8da965378abe6b61e1ae1e2969b548a5d7b356b",
+      "fetchedAt": "2026-09-22"
     },
     "sdk": {
-      "sha": "a830fe682f8c6a4c10eb2c27da020248683db0a1",
-      "fetchedAt": "2026-09-21"
+      "sha": "596caccec941c447e71fc8d1ba499b2f95322a47",
+      "fetchedAt": "2026-09-22"
     },
     "rpc": {
-      "sha": "d81c23bbf33917d1d319aa7bb460f05639cfb515",
-      "fetchedAt": "2026-09-08"
+      "sha": "ad6ff90e80ba89eb2a42f226c1cbd46bc1818a2f",
+      "fetchedAt": "2026-09-22"
     },
     "json": {
-      "sha": "6c306927df1ea68722bc93c306d0a8e420b2113c",
-      "fetchedAt": "2026-09-08"
+      "sha": "afa1f7b12cb41f21a75ca3796c504779e9aa3441",
+      "fetchedAt": "2026-09-22"
     },
     "tui": {
-      "sha": "b1e737325480b309988470b26eb333dfa952ed96",
-      "fetchedAt": "2026-09-08"
+      "sha": "77dfa72e8760e1b69a5c6be9a06806c5dd5e7e6c",
+      "fetchedAt": "2026-09-22"
     },
     "development": {
       "sha": "fa15ba0316fca8d88eba3eef899ce8ecf8b75f66",
-      "fetchedAt": "2026-09-08"
+      "fetchedAt": "2026-09-08",
+      "missing": true
     },
     "windows": {
-      "sha": "2517fd946d5e187964d96e1108bf8681b35e43f3",
-      "fetchedAt": "2026-09-08"
+      "sha": "38055549c2d5295b6b6eb98aff206e8f8069c28d",
+      "fetchedAt": "2026-09-22"
     },
     "termux": {
-      "sha": "1dd355942806b1be5b1a1f75c8b48665df7d0fa1",
-      "fetchedAt": "2026-09-08"
+      "sha": "ee46379f2cb7a7f7cd172790f5c919fae7316210",
+      "fetchedAt": "2026-09-22"
     },
     "tmux": {
-      "sha": "0083b5f1fe690e40412813a161cacf567120a49c",
-      "fetchedAt": "2026-09-08"
+      "sha": "091d61647517b8a621c5ed8eba74cbe468bf15af",
+      "fetchedAt": "2026-09-22"
     },
     "terminal-setup": {
-      "sha": "de91e3c5cf383fa1e97aaaa1b1a835bc796dcd94",
-      "fetchedAt": "2026-09-08"
+      "sha": "20efd590fa7dc9e7aa48de92d6069989a361f70e",
+      "fetchedAt": "2026-09-22"
     },
     "shell-aliases": {
-      "sha": "af0cd25f198cfe1af2a4da82cc6fddab97f5aeaa",
-      "fetchedAt": "2026-09-08"
+      "sha": "da257d4943e25bb00a4486872720ce7e59b03793",
+      "fetchedAt": "2026-09-22"
     },
     "llama-cpp": {
-      "sha": "bffa13f423aebaddf228145ddb954db4c4800c19",
-      "fetchedAt": "2026-09-08"
+      "sha": "fb029b4920ba05840158f01837f9e6d6eb20e316",
+      "fetchedAt": "2026-09-22"
+    },
+    "cli-integration": {
+      "sha": "c01772b96afe112e3df85dd8f1224ad761338e06",
+      "fetchedAt": "2026-09-22"
+    },
+    "cli": {
+      "sha": "a0193b2b57e87df3e5c98761205a9abf47357044",
+      "fetchedAt": "2026-09-22"
+    },
+    "configuration": {
+      "sha": "40fdb0ef78a60b0bc7eb566f0f57aa215ac3c6be",
+      "fetchedAt": "2026-09-22"
+    },
+    "how-pi-works": {
+      "sha": "dedcfabe29426bd8f955404fe21863389cec03e7",
+      "fetchedAt": "2026-09-22"
+    },
+    "message-types": {
+      "sha": "c6bf7797ea7a8e13f7ec03c8f7b929dd6fa53f48",
+      "fetchedAt": "2026-09-22"
+    },
+    "rpc-commands": {
+      "sha": "bd67f84926cb26eea81e83c0a39540345b2d330a",
+      "fetchedAt": "2026-09-22"
+    },
+    "rpc-extension-ui": {
+      "sha": "bd489450d3b30c00194b9f4a58043e69d34f0994",
+      "fetchedAt": "2026-09-22"
+    },
+    "slash-commands": {
+      "sha": "a55245f093bedb91218d83c4d7cf4d8a9b28c258",
+      "fetchedAt": "2026-09-22"
     }
   },
-  "latestRelease": "v0.87.0"
+  "latestRelease": "v0.87.1"
 }
