@@ -77,12 +77,12 @@
       "fetchedAt": "2026-09-22"
     },
     "sdk": {
-      "sha": "596caccec941c447e71fc8d1ba499b2f95322a47",
-      "fetchedAt": "2026-09-22"
+      "sha": "be1428d2d5e1de44bc7bd83f5e700df3a0c9a7c3",
+      "fetchedAt": "2026-09-25"
     },
     "rpc": {
-      "sha": "ad6ff90e80ba89eb2a42f226c1cbd46bc1818a2f",
-      "fetchedAt": "2026-09-22"
+      "sha": "a39cc8da25c17e8d41af35bd32ac0bef5604b1b4",
+      "fetchedAt": "2026-09-25"
     },
     "json": {
       "sha": "afa1f7b12cb41f21a75ca3796c504779e9aa3441",
