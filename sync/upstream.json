@@ -29,8 +29,8 @@
       "fetchedAt": "2026-09-26"
     },
     "keybindings": {
-      "sha": "eb25606b3eb60f89bae3d4b866da05daf5ab5fb1",
-      "fetchedAt": "2026-09-22"
+      "sha": "440c130ec878cb8b5d3b97852f85e98c3906c2c4",
+      "fetchedAt": "2026-09-28"
     },
     "environment-variables": {
       "sha": "521352438e118be16e7cc0ccff6e9eb2a80722d8",
@@ -45,8 +45,8 @@
       "fetchedAt": "2026-09-22"
     },
     "extensions": {
-      "sha": "a0a833e056165ad317f9d79ba7928610c6787e1d",
-      "fetchedAt": "2026-09-23"
+      "sha": "e611af1ff83815d5e5b7af89be287dfa87b9e4c5",
+      "fetchedAt": "2026-09-28"
     },
     "skills": {
       "sha": "19d2bf28910ce49caaaf4dde86d1e96330ca7b31",
@@ -73,8 +73,8 @@
       "fetchedAt": "2026-09-22"
     },
     "session-format": {
-      "sha": "f8da965378abe6b61e1ae1e2969b548a5d7b356b",
-      "fetchedAt": "2026-09-22"
+      "sha": "715341998fb36c905508ae958727ea49cc84b4d6",
+      "fetchedAt": "2026-09-28"
     },
     "sdk": {
       "sha": "be1428d2d5e1de44bc7bd83f5e700df3a0c9a7c3",
@@ -118,8 +118,8 @@
       "fetchedAt": "2026-09-22"
     },
     "llama-cpp": {
-      "sha": "fb029b4920ba05840158f01837f9e6d6eb20e316",
-      "fetchedAt": "2026-09-22"
+      "sha": "307032dbf53e9652a75a6c04f001300f3f699fc2",
+      "fetchedAt": "2026-09-28"
     },
     "cli-integration": {
       "sha": "c01772b96afe112e3df85dd8f1224ad761338e06",
@@ -152,6 +152,10 @@
     "slash-commands": {
       "sha": "a55245f093bedb91218d83c4d7cf4d8a9b28c258",
       "fetchedAt": "2026-09-22"
+    },
+    "virtual-models": {
+      "sha": "ccd9a6451cd40da512befe9fa383337ecdd355d9",
+      "fetchedAt": "2026-09-28"
     }
   },
   "latestRelease": "v0.87.1"
