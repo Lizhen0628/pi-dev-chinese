@@ -13,20 +13,20 @@
       "fetchedAt": "2026-09-22"
     },
     "providers": {
-      "sha": "23cc86e0915246b5e4649119559225a76ce6ee26",
-      "fetchedAt": "2026-09-22"
+      "sha": "898a1c9f4ef32787bc8ea79d515bb44ff6c1d6f7",
+      "fetchedAt": "2026-09-29"
     },
     "models": {
-      "sha": "1561ca0911727f7d46b78cdcd8b719b4fa05b8fc",
-      "fetchedAt": "2026-09-22"
+      "sha": "da2cfe237d6e6ed1049b28ba1a45ab5ec45f82f0",
+      "fetchedAt": "2026-09-29"
     },
     "custom-provider": {
       "sha": "646dea39e9e741126e60fcdef754b3aef84483d0",
       "fetchedAt": "2026-09-23"
     },
     "settings": {
-      "sha": "ff7102af5f72776f0a665e13bf1af183942cff67",
-      "fetchedAt": "2026-09-26"
+      "sha": "bbbf0b0abf4658daa7c15ded7a749e4eaea84d1f",
+      "fetchedAt": "2026-09-29"
     },
     "keybindings": {
       "sha": "440c130ec878cb8b5d3b97852f85e98c3906c2c4",
@@ -37,16 +37,16 @@
       "fetchedAt": "2026-09-22"
     },
     "security": {
-      "sha": "6178dd6c903e137d7dbad575ebb2bb132b3c06ec",
-      "fetchedAt": "2026-09-22"
+      "sha": "4f0dc290fe1011883cd64c729f07bfe046feb9b1",
+      "fetchedAt": "2026-09-29"
     },
     "containerization": {
       "sha": "f65b94e8fde1b63a641105ba86c8874f6827f2a7",
       "fetchedAt": "2026-09-22"
     },
     "extensions": {
-      "sha": "e611af1ff83815d5e5b7af89be287dfa87b9e4c5",
-      "fetchedAt": "2026-09-28"
+      "sha": "afc64470ce74a6bafbdd2b4b2fe22c29b99823e2",
+      "fetchedAt": "2026-09-29"
     },
     "skills": {
       "sha": "19d2bf28910ce49caaaf4dde86d1e96330ca7b31",
@@ -61,8 +61,8 @@
       "fetchedAt": "2026-09-26"
     },
     "packages": {
-      "sha": "0d5de1cb67e58f0814b320c9cccf26c9bb5fd8f4",
-      "fetchedAt": "2026-09-23"
+      "sha": "284dd8cb4c071465235aa58caf4e96c1c53fa992",
+      "fetchedAt": "2026-09-29"
     },
     "sessions": {
       "sha": "3fc232b28659431473189bc69e3c583fc5dca567",
@@ -77,8 +77,8 @@
       "fetchedAt": "2026-09-28"
     },
     "sdk": {
-      "sha": "be1428d2d5e1de44bc7bd83f5e700df3a0c9a7c3",
-      "fetchedAt": "2026-09-25"
+      "sha": "1ae6b0811b69e7949b5d74b31dfb91395c9ee559",
+      "fetchedAt": "2026-09-29"
     },
     "rpc": {
       "sha": "a39cc8da25c17e8d41af35bd32ac0bef5604b1b4",
@@ -98,8 +98,8 @@
       "missing": true
     },
     "windows": {
-      "sha": "38055549c2d5295b6b6eb98aff206e8f8069c28d",
-      "fetchedAt": "2026-09-22"
+      "sha": "c4cfdc9c7dd37b01abca656614578e0324c564ed",
+      "fetchedAt": "2026-09-29"
     },
     "termux": {
       "sha": "ee46379f2cb7a7f7cd172790f5c919fae7316210",
@@ -118,8 +118,8 @@
       "fetchedAt": "2026-09-22"
     },
     "llama-cpp": {
-      "sha": "307032dbf53e9652a75a6c04f001300f3f699fc2",
-      "fetchedAt": "2026-09-28"
+      "sha": "917ad470646f217a175437db8b705217c9d70dbd",
+      "fetchedAt": "2026-09-29"
     },
     "cli-integration": {
       "sha": "c01772b96afe112e3df85dd8f1224ad761338e06",
@@ -156,7 +156,11 @@
     "virtual-models": {
       "sha": "ccd9a6451cd40da512befe9fa383337ecdd355d9",
       "fetchedAt": "2026-09-28"
+    },
+    "mcp": {
+      "sha": "ea200d20432c161c4049eb68e33c546245e21d51",
+      "fetchedAt": "2026-09-29"
     }
   },
-  "latestRelease": "v0.87.1"
+  "latestRelease": "v0.99.1"
 }
