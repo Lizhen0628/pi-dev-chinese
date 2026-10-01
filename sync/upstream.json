@@ -1,40 +1,40 @@
 {
   "files": {
     "index": {
-      "sha": "2f5e31155b72e1a1f6db03612f1a0f6c0eec2edb",
-      "fetchedAt": "2026-09-22"
+      "sha": "41c3411e7f02f85cf347d88dcbfa97bfc76534cb",
+      "fetchedAt": "2026-10-01"
     },
     "quickstart": {
       "sha": "891f21b31444bad05d1e50c7f890a069b9c69a31",
       "fetchedAt": "2026-09-22"
     },
     "usage": {
-      "sha": "b949aef8c6b51520d71d652939be1ed413f589fc",
-      "fetchedAt": "2026-09-22"
+      "sha": "ae227693c954b6ef5440e6e5dd532478b18a4be1",
+      "fetchedAt": "2026-10-01"
     },
     "providers": {
-      "sha": "022656d3df58d45bcbdbf931f47754060ef93a81",
-      "fetchedAt": "2026-09-30"
+      "sha": "270f6b238ea4e8b8842756fb760671ed9054c79d",
+      "fetchedAt": "2026-10-01"
     },
     "models": {
-      "sha": "da2cfe237d6e6ed1049b28ba1a45ab5ec45f82f0",
-      "fetchedAt": "2026-09-29"
+      "sha": "1a866de030dbc7a04da2a89bd7e9f3a10f40ea6a",
+      "fetchedAt": "2026-10-01"
     },
     "custom-provider": {
       "sha": "646dea39e9e741126e60fcdef754b3aef84483d0",
       "fetchedAt": "2026-09-23"
     },
     "settings": {
-      "sha": "42c7871d73e5a06e1ca8a2825a3feca7c99d205c",
-      "fetchedAt": "2026-09-30"
+      "sha": "02f46e634c19b46cd1407581a8c9b11600e81703",
+      "fetchedAt": "2026-10-01"
     },
     "keybindings": {
       "sha": "440c130ec878cb8b5d3b97852f85e98c3906c2c4",
       "fetchedAt": "2026-09-28"
     },
     "environment-variables": {
-      "sha": "521352438e118be16e7cc0ccff6e9eb2a80722d8",
-      "fetchedAt": "2026-09-22"
+      "sha": "50d50481f912e6a12d5b8358d417c53f824b7f47",
+      "fetchedAt": "2026-10-01"
     },
     "security": {
       "sha": "4f0dc290fe1011883cd64c729f07bfe046feb9b1",
@@ -77,8 +77,8 @@
       "fetchedAt": "2026-09-28"
     },
     "sdk": {
-      "sha": "7d7e03ae323c4262f8ae98bc4fe2ac7a7db67535",
-      "fetchedAt": "2026-09-30"
+      "sha": "7d0883b3ff7926c077414ccce9b4f7aa31f7065b",
+      "fetchedAt": "2026-10-01"
     },
     "rpc": {
       "sha": "a39cc8da25c17e8d41af35bd32ac0bef5604b1b4",
@@ -160,7 +160,11 @@
     "mcp": {
       "sha": "ea200d20432c161c4049eb68e33c546245e21d51",
       "fetchedAt": "2026-09-29"
+    },
+    "codemode": {
+      "sha": "2ccee8e6876222225f78979111bc95ea2eabba1b",
+      "fetchedAt": "2026-10-01"
     }
   },
-  "latestRelease": "v0.99.2"
+  "latestRelease": "v1.0.0"
 }
