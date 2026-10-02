@@ -2,7 +2,7 @@
 
 Pi 在您的终端中运行，并处理您机器上的文件。要使用它，您需要通过受支持的提供商访问模型。这可以是订阅、API 密钥或本地模型。
 
-对于原生 Windows 设置，请阅读 [Windows 设置](/docs/windows/)。对于 Android，请阅读 [Termux 设置](/docs/termux/)。
+有关原生 Windows 设置，请阅读 [Windows 设置](/docs/windows/)。有关 Android，请阅读 [Termux 设置](/docs/termux/)。
 
 ## 1. 安装 Pi
 
@@ -12,13 +12,21 @@ Pi 在您的终端中运行，并处理您机器上的文件。要使用它，�
 curl -fsSL https://pi.dev/install.sh | sh
 ```
 
-或者，通过 npm 安装 Pi。这需要 Node.js 22.19 或更高版本：
+该安装程序会固定所有依赖项，并通过 `pi update` 更新 Pi。或者，您也可以从 npm 安装 Pi，但这种方式不会固定传递依赖项。这需要 Node.js 22.19 或更高版本：
 
 ```bash
 npm install -g --ignore-scripts @earendil-works/pi-coding-agent
 ```
 
-Pi 的正常 npm 安装不需要依赖生命周期脚本。
+对于常规的 npm 安装，Pi 不需要依赖生命周期脚本。
+
+在 macOS 或 Linux 上使用 Nix，可以从 Pi 的 flake 安装最新版本。Nix 会从源码构建 Pi：
+
+```bash
+nix profile add github:earendil-works/pi/stable
+```
+
+较旧版本的 Nix 使用 `nix profile install` 代替。使用 `nix profile upgrade pi` 进行更新；`pi update` 无法更新 Nix 安装。要固定某个版本，请使用标签，例如 `github:earendil-works/pi/v1.0.0`。
 
 验证安装：
 
@@ -43,7 +51,7 @@ pi
 
 ## 3. 选择模型
 
-**模型**生成 Pi 的回复。**提供商**是 Pi 用于访问该模型的服务或账户。
+**模型**负责生成 Pi 的响应。**提供商**则是 Pi 用来访问该模型的服务或账户。
 
 在 Pi 中，运行：
 
@@ -51,15 +59,15 @@ pi
 /login
 ```
 
-选择一个提供商，然后按照提示使用订阅或存储 API 密钥。之后如果你想选择其他可用的模型，可以运行 `/model`。
+选择一个提供商，然后按照提示使用订阅或存储 API 密钥。若需选择其他可用模型，可随后运行 `/model` 命令。
 
-参见[选择模型和提供商](/docs/models/)了解支持的提供商、环境变量认证、本地模型和自定义端点。
+关于支持的提供商、环境变量身份验证、本地模型及自定义端点，请参阅 [选择模型和提供商](/docs/models/)。
 
 ## 4. 给 Pi 分配任务
 
 Pi 会展示它执行的每次文件读取、搜索、命令和编辑操作。它不会在每次工具调用前都征求许可。
 
-输入一个与你工作匹配的任务，例如：
+输入一个符合你工作内容的任务，例如：
 
 ```text
 总结 @meeting-notes.md 并将行动项保存到 action-items.md。
@@ -70,28 +78,28 @@ Pi 会展示它执行的每次文件读取、搜索、命令和编辑操作。�
 ```
 
 ```text
-比较 @previous.csv 与 @current.csv 并总结重要变化。
+比较 @previous.csv 与 @current.csv，并总结重要变化。
 ```
 
-在编辑器中输入 `@` 来搜索文件，而不是输入其完整路径。当 Pi 完成后，审查其响应及任何更改的文件。对于重要工作，请使用版本控制或备份。对于不受信任或无人值守的工作，请使用容器或其他沙箱。参见 [安全](/docs/security/)。
+在编辑器中输入 `@` 来搜索文件，而不是输入其完整路径。当 Pi 完成后，审查其响应及任何更改过的文件。对于重要工作，请使用版本控制或备份。对于不受信任或无人值守的工作，请使用容器或其他沙箱。参见 [安全](/docs/security/)。
 
 ## 稍后继续
 
-Pi 会自动保存会话。退出 Pi 后，使用以下命令恢复同一工作文件夹的最近会话：
+Pi 会自动保存会话。退出 Pi 后，可通过以下命令恢复同一工作文件夹的最近会话：
 
 ```bash
 pi --continue
 ```
 
-使用 `/resume` 选择其他已保存的会话。有关会话命名、分支、压缩、导出和共享，请参阅 [继续或分支会话](/docs/sessions/)。
+使用 `/resume` 选择其他已保存的会话。有关会话命名、分支、压缩、导出和共享的详细信息，请参阅 [继续或分支会话](/docs/sessions/)。
 
 ## 后续步骤
 
-- [交互式使用 Pi](/docs/usage/) 了解输入、命令、快捷键及排队消息。
+- [交互式使用 Pi](/docs/usage/) 了解输入、命令、快捷键和排队消息。
 - [添加指令](configuration.md#context-files)，让 Pi 在文件夹中工作时始终遵循。
-- [选择模型与提供商](/docs/models/)。
+- [选择模型和提供商](/docs/models/)。
 
-### 如何自定义 Pi
+### 如何定制 Pi
 
 从满足需求的最轻量机制开始：
 
@@ -113,10 +121,16 @@ pi --continue
 npm uninstall -g @earendil-works/pi-coding-agent
 ```
 
-如果你使用了安装器，请重新运行它并选择 **卸载 Pi**：
+如果你使用了安装程序，请再次运行它并选择 **卸载 Pi**：
 
 ```bash
 curl -fsSL https://pi.dev/install.sh | sh
 ```
 
-这两种方法都不会移除 `~/.pi/agent/` 中的配置、凭据、会话或已安装的 Pi 软件包。
+如果你通过 Nix 安装了 Pi，请运行：
+
+```bash
+nix profile remove pi
+```
+
+以上方法均不会从 `~/.pi/agent/` 中移除配置、凭据、会话或已安装的 Pi 软件包。
