@@ -1,5 +1,11 @@
 [
   {
+    "tag": "v1.0.1",
+    "name": "v1.0.1",
+    "date": "2026-10-03",
+    "url": "https://github.com/earendil-works/pi/releases/tag/v1.0.1"
+  },
+  {
     "tag": "v1.0.0",
     "name": "v1.0.0",
     "date": "2026-10-01",
@@ -52,11 +58,5 @@
     "name": "v0.85.1",
     "date": "2026-09-05",
     "url": "https://github.com/earendil-works/pi/releases/tag/v0.85.1"
-  },
-  {
-    "tag": "v0.85.0",
-    "name": "v0.85.0",
-    "date": "2026-09-04",
-    "url": "https://github.com/earendil-works/pi/releases/tag/v0.85.0"
   }
 ]

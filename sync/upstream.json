@@ -45,8 +45,8 @@
       "fetchedAt": "2026-09-22"
     },
     "extensions": {
-      "sha": "9ecc4d995b26fbaa55c46eb7fdfad22ff7fdf257",
-      "fetchedAt": "2026-09-30"
+      "sha": "e389d0338318c0b808e9050010c900a7174e6977",
+      "fetchedAt": "2026-10-03"
     },
     "skills": {
       "sha": "19d2bf28910ce49caaaf4dde86d1e96330ca7b31",
@@ -166,5 +166,5 @@
       "fetchedAt": "2026-10-01"
     }
   },
-  "latestRelease": "v1.0.0"
+  "latestRelease": "v1.0.1"
 }
