@@ -17,8 +17,8 @@
       "fetchedAt": "2026-10-01"
     },
     "models": {
-      "sha": "af3fb7e8a0a47651d21e2fd88a7d79cfb6865083",
-      "fetchedAt": "2026-10-02"
+      "sha": "838eec8352378fb574c41f1bff3c832059f75f31",
+      "fetchedAt": "2026-10-04"
     },
     "custom-provider": {
       "sha": "646dea39e9e741126e60fcdef754b3aef84483d0",
@@ -166,5 +166,5 @@
       "fetchedAt": "2026-10-01"
     }
   },
-  "latestRelease": "v1.0.1"
+  "latestRelease": "v1.0.2"
 }
