@@ -25,8 +25,8 @@
       "fetchedAt": "2026-09-23"
     },
     "settings": {
-      "sha": "02f46e634c19b46cd1407581a8c9b11600e81703",
-      "fetchedAt": "2026-10-01"
+      "sha": "e7063179ea9e5b9cf98db600290ade3c3b3dd47b",
+      "fetchedAt": "2026-10-06"
     },
     "keybindings": {
       "sha": "cfc5e4320df39098d85c6004d5105cdb24b9afae",
@@ -85,8 +85,8 @@
       "fetchedAt": "2026-09-25"
     },
     "json": {
-      "sha": "afa1f7b12cb41f21a75ca3796c504779e9aa3441",
-      "fetchedAt": "2026-09-22"
+      "sha": "d2094a434fd0b4c51ac2cd75ff2042314935aebd",
+      "fetchedAt": "2026-10-06"
     },
     "tui": {
       "sha": "4a2ff2c56cc7c9a22d8677b7d5d7ae454e36fc86",
@@ -118,8 +118,8 @@
       "fetchedAt": "2026-09-22"
     },
     "llama-cpp": {
-      "sha": "917ad470646f217a175437db8b705217c9d70dbd",
-      "fetchedAt": "2026-09-29"
+      "sha": "ea51675e00cf54323dde894ab4cfbb7b25cabce2",
+      "fetchedAt": "2026-10-06"
     },
     "cli-integration": {
       "sha": "c01772b96afe112e3df85dd8f1224ad761338e06",
