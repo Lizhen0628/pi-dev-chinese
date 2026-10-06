@@ -29,8 +29,8 @@
       "fetchedAt": "2026-10-01"
     },
     "keybindings": {
-      "sha": "ed001040da4799286acdccd796a42b9ed1cc2850",
-      "fetchedAt": "2026-10-02"
+      "sha": "cfc5e4320df39098d85c6004d5105cdb24b9afae",
+      "fetchedAt": "2026-10-06"
     },
     "environment-variables": {
       "sha": "50d50481f912e6a12d5b8358d417c53f824b7f47",
@@ -45,8 +45,8 @@
       "fetchedAt": "2026-09-22"
     },
     "extensions": {
-      "sha": "e389d0338318c0b808e9050010c900a7174e6977",
-      "fetchedAt": "2026-10-03"
+      "sha": "c350e6626ee0b6583fc655e63c35e521f5ede995",
+      "fetchedAt": "2026-10-06"
     },
     "skills": {
       "sha": "19d2bf28910ce49caaaf4dde86d1e96330ca7b31",
@@ -166,5 +166,5 @@
       "fetchedAt": "2026-10-01"
     }
   },
-  "latestRelease": "v1.0.2"
+  "latestRelease": "v1.0.4"
 }
