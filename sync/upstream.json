@@ -13,28 +13,28 @@
       "fetchedAt": "2026-10-01"
     },
     "providers": {
-      "sha": "270f6b238ea4e8b8842756fb760671ed9054c79d",
-      "fetchedAt": "2026-10-01"
+      "sha": "ca0ed1117d3cb18cac3972d91089d047b6362555",
+      "fetchedAt": "2026-10-07"
     },
     "models": {
-      "sha": "838eec8352378fb574c41f1bff3c832059f75f31",
-      "fetchedAt": "2026-10-04"
+      "sha": "be39ce8a7036bb39e750339f3af5eee4d1eaf173",
+      "fetchedAt": "2026-10-07"
     },
     "custom-provider": {
       "sha": "646dea39e9e741126e60fcdef754b3aef84483d0",
       "fetchedAt": "2026-09-23"
     },
     "settings": {
-      "sha": "e7063179ea9e5b9cf98db600290ade3c3b3dd47b",
-      "fetchedAt": "2026-10-06"
+      "sha": "b36f1b3c54a879a8f2e787f3c2c01ac5174325e2",
+      "fetchedAt": "2026-10-07"
     },
     "keybindings": {
       "sha": "cfc5e4320df39098d85c6004d5105cdb24b9afae",
       "fetchedAt": "2026-10-06"
     },
     "environment-variables": {
-      "sha": "50d50481f912e6a12d5b8358d417c53f824b7f47",
-      "fetchedAt": "2026-10-01"
+      "sha": "f4e484fc8034651b06005d763340a26120135bbe",
+      "fetchedAt": "2026-10-07"
     },
     "security": {
       "sha": "4f0dc290fe1011883cd64c729f07bfe046feb9b1",
@@ -85,12 +85,12 @@
       "fetchedAt": "2026-09-25"
     },
     "json": {
-      "sha": "d2094a434fd0b4c51ac2cd75ff2042314935aebd",
-      "fetchedAt": "2026-10-06"
+      "sha": "ca76d632665d8878a4388437f8df0b6991e23365",
+      "fetchedAt": "2026-10-07"
     },
     "tui": {
-      "sha": "4a2ff2c56cc7c9a22d8677b7d5d7ae454e36fc86",
-      "fetchedAt": "2026-09-24"
+      "sha": "693e3a4e7474ba088b38ab310f83f326e7f9635b",
+      "fetchedAt": "2026-10-07"
     },
     "development": {
       "sha": "fa15ba0316fca8d88eba3eef899ce8ecf8b75f66",
@@ -110,8 +110,8 @@
       "fetchedAt": "2026-09-22"
     },
     "terminal-setup": {
-      "sha": "20efd590fa7dc9e7aa48de92d6069989a361f70e",
-      "fetchedAt": "2026-09-22"
+      "sha": "a3c67af0796077aad695d1bcb93d94c5086b89a8",
+      "fetchedAt": "2026-10-07"
     },
     "shell-aliases": {
       "sha": "da257d4943e25bb00a4486872720ce7e59b03793",
@@ -166,5 +166,5 @@
       "fetchedAt": "2026-10-01"
     }
   },
-  "latestRelease": "v1.0.4"
+  "latestRelease": "v1.1.0"
 }
