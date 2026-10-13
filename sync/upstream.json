@@ -9,8 +9,8 @@
       "fetchedAt": "2026-10-02"
     },
     "usage": {
-      "sha": "ae227693c954b6ef5440e6e5dd532478b18a4be1",
-      "fetchedAt": "2026-10-01"
+      "sha": "19a6da9368dc1a154054014c2d22ae81d490e5b1",
+      "fetchedAt": "2026-10-13"
     },
     "providers": {
       "sha": "0da96ddf64ef16b1ddb444d8fdf827cae21bd01d",
@@ -25,8 +25,8 @@
       "fetchedAt": "2026-09-23"
     },
     "settings": {
-      "sha": "485c27ba380a40f7d74b8f4f29f35a291d3bd9d7",
-      "fetchedAt": "2026-10-11"
+      "sha": "058736f0c07b276f874555cfdbce48099a5aeb50",
+      "fetchedAt": "2026-10-13"
     },
     "keybindings": {
       "sha": "77838b6297c79417ce56bf88a5de43ceecf9a6e9",
@@ -65,8 +65,8 @@
       "fetchedAt": "2026-09-29"
     },
     "sessions": {
-      "sha": "3fc232b28659431473189bc69e3c583fc5dca567",
-      "fetchedAt": "2026-09-22"
+      "sha": "1a8be36c5eee85be1a3b6623af1dd6872b79f89c",
+      "fetchedAt": "2026-10-13"
     },
     "compaction": {
       "sha": "72a7c94090d093fa139ea5858100c2b4a35ec9fb",
@@ -118,8 +118,8 @@
       "fetchedAt": "2026-09-22"
     },
     "llama-cpp": {
-      "sha": "ea51675e00cf54323dde894ab4cfbb7b25cabce2",
-      "fetchedAt": "2026-10-06"
+      "sha": "d4c41ab2e098f6a1bf8777c85cb156ca29dc4836",
+      "fetchedAt": "2026-10-13"
     },
     "cli-integration": {
       "sha": "c01772b96afe112e3df85dd8f1224ad761338e06",
@@ -164,6 +164,10 @@
     "codemode": {
       "sha": "2ccee8e6876222225f78979111bc95ea2eabba1b",
       "fetchedAt": "2026-10-01"
+    },
+    "nvidia-rtx-llama-cpp": {
+      "sha": "9ea812a55da92832b37dac9c35e6033f8898473f",
+      "fetchedAt": "2026-10-13"
     }
   },
   "latestRelease": "v1.2.0"
