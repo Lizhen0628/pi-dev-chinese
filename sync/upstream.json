@@ -17,16 +17,16 @@
       "fetchedAt": "2026-10-13"
     },
     "models": {
-      "sha": "fbb01966ecc810563455688db95bbb87cbe05d31",
-      "fetchedAt": "2026-10-11"
+      "sha": "2014aee50bb3d8ebbe402de31fc427959c6f3ba0",
+      "fetchedAt": "2026-10-16"
     },
     "custom-provider": {
       "sha": "646dea39e9e741126e60fcdef754b3aef84483d0",
       "fetchedAt": "2026-09-23"
     },
     "settings": {
-      "sha": "058736f0c07b276f874555cfdbce48099a5aeb50",
-      "fetchedAt": "2026-10-13"
+      "sha": "7e2898525d8169fcff622dd3d67f1056f76e679f",
+      "fetchedAt": "2026-10-16"
     },
     "keybindings": {
       "sha": "77838b6297c79417ce56bf88a5de43ceecf9a6e9",
@@ -69,8 +69,8 @@
       "fetchedAt": "2026-10-13"
     },
     "compaction": {
-      "sha": "72a7c94090d093fa139ea5858100c2b4a35ec9fb",
-      "fetchedAt": "2026-10-11"
+      "sha": "69c82e8898f54cf87bf12fa1f9fe931b5f3a8d56",
+      "fetchedAt": "2026-10-16"
     },
     "session-format": {
       "sha": "715341998fb36c905508ae958727ea49cc84b4d6",
@@ -168,6 +168,10 @@
     "nvidia-rtx-llama-cpp": {
       "sha": "9ea812a55da92832b37dac9c35e6033f8898473f",
       "fetchedAt": "2026-10-13"
+    },
+    "models-configuration": {
+      "sha": "04787a77cfba942c481b2e42dde22f3991de97ae",
+      "fetchedAt": "2026-10-16"
     }
   },
   "latestRelease": "v1.3.0"
