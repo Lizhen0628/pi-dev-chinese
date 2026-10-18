@@ -21,8 +21,8 @@
       "fetchedAt": "2026-10-16"
     },
     "custom-provider": {
-      "sha": "646dea39e9e741126e60fcdef754b3aef84483d0",
-      "fetchedAt": "2026-09-23"
+      "sha": "248d6d0cd713dcafaa04979620781bb775b0ac18",
+      "fetchedAt": "2026-10-18"
     },
     "settings": {
       "sha": "7e2898525d8169fcff622dd3d67f1056f76e679f",
@@ -45,8 +45,8 @@
       "fetchedAt": "2026-09-22"
     },
     "extensions": {
-      "sha": "c0c7fd23cd7d07f832ed689670e994e51e750110",
-      "fetchedAt": "2026-10-13"
+      "sha": "c3836c81bce9bac8dccf468f8a15cd60d9736fd1",
+      "fetchedAt": "2026-10-18"
     },
     "skills": {
       "sha": "19d2bf28910ce49caaaf4dde86d1e96330ca7b31",
@@ -89,8 +89,8 @@
       "fetchedAt": "2026-10-07"
     },
     "tui": {
-      "sha": "693e3a4e7474ba088b38ab310f83f326e7f9635b",
-      "fetchedAt": "2026-10-07"
+      "sha": "704a786335b21302afac63e68e99705d686941bf",
+      "fetchedAt": "2026-10-18"
     },
     "development": {
       "sha": "fa15ba0316fca8d88eba3eef899ce8ecf8b75f66",
