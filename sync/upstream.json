@@ -98,8 +98,8 @@
       "missing": true
     },
     "windows": {
-      "sha": "c4cfdc9c7dd37b01abca656614578e0324c564ed",
-      "fetchedAt": "2026-09-29"
+      "sha": "26f2f961cbdd4dee08f4a63724a9cc4ad1f0c1b5",
+      "fetchedAt": "2026-10-19"
     },
     "termux": {
       "sha": "ee46379f2cb7a7f7cd172790f5c919fae7316210",
