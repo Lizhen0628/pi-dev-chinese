@@ -21,8 +21,8 @@
       "fetchedAt": "2026-10-21"
     },
     "custom-provider": {
-      "sha": "248d6d0cd713dcafaa04979620781bb775b0ac18",
-      "fetchedAt": "2026-10-18"
+      "sha": "ec8ea52da1bea8907db5eb027599640658b9983c",
+      "fetchedAt": "2026-10-22"
     },
     "settings": {
       "sha": "7e2898525d8169fcff622dd3d67f1056f76e679f",
@@ -174,5 +174,5 @@
       "fetchedAt": "2026-10-16"
     }
   },
-  "latestRelease": "v1.3.0"
+  "latestRelease": "v1.4.0"
 }
