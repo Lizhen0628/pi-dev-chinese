@@ -45,8 +45,8 @@
       "fetchedAt": "2026-09-22"
     },
     "extensions": {
-      "sha": "7580137f646b36c3d3039667816506817e38c4b6",
-      "fetchedAt": "2026-10-23"
+      "sha": "2439d1b45fc538a0e2def0e2dfa0519c0bdaa629",
+      "fetchedAt": "2026-10-27"
     },
     "skills": {
       "sha": "19d2bf28910ce49caaaf4dde86d1e96330ca7b31",
@@ -89,8 +89,8 @@
       "fetchedAt": "2026-10-07"
     },
     "tui": {
-      "sha": "704a786335b21302afac63e68e99705d686941bf",
-      "fetchedAt": "2026-10-18"
+      "sha": "c3fb30939c5322c3565cef787020b3be79fd705f",
+      "fetchedAt": "2026-10-27"
     },
     "development": {
       "sha": "fa15ba0316fca8d88eba3eef899ce8ecf8b75f66",
@@ -118,8 +118,8 @@
       "fetchedAt": "2026-09-22"
     },
     "llama-cpp": {
-      "sha": "d4c41ab2e098f6a1bf8777c85cb156ca29dc4836",
-      "fetchedAt": "2026-10-13"
+      "sha": "6684bb4df996feabc0fb28a78bf9f9d2638bf7ef",
+      "fetchedAt": "2026-10-27"
     },
     "cli-integration": {
       "sha": "c01772b96afe112e3df85dd8f1224ad761338e06",
