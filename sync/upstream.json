@@ -5,8 +5,8 @@
       "fetchedAt": "2026-10-01"
     },
     "quickstart": {
-      "sha": "89b56f07e0f33c2a82eb09f8f5ca9a85dbf1b20d",
-      "fetchedAt": "2026-10-02"
+      "sha": "44054e9493b7223c8bcc21728fde4797de2ddbad",
+      "fetchedAt": "2026-10-28"
     },
     "usage": {
       "sha": "19a6da9368dc1a154054014c2d22ae81d490e5b1",
@@ -25,12 +25,12 @@
       "fetchedAt": "2026-10-22"
     },
     "settings": {
-      "sha": "150eaf4d7227f684de547c8f587989a872adfcff",
-      "fetchedAt": "2026-10-23"
+      "sha": "538a61392f82fde497b01f65f9fb0268a65fa16f",
+      "fetchedAt": "2026-10-28"
     },
     "keybindings": {
-      "sha": "77838b6297c79417ce56bf88a5de43ceecf9a6e9",
-      "fetchedAt": "2026-10-11"
+      "sha": "34e4d68b4b90e9e3a90eb6de494a2e6595480bf9",
+      "fetchedAt": "2026-10-28"
     },
     "environment-variables": {
       "sha": "b485d6051f384bf41c777412016516d4a4406c3a",
@@ -45,8 +45,8 @@
       "fetchedAt": "2026-09-22"
     },
     "extensions": {
-      "sha": "2439d1b45fc538a0e2def0e2dfa0519c0bdaa629",
-      "fetchedAt": "2026-10-27"
+      "sha": "7666d5645d60ae6c09b263e68a23d15b999893ee",
+      "fetchedAt": "2026-10-28"
     },
     "skills": {
       "sha": "19d2bf28910ce49caaaf4dde86d1e96330ca7b31",
@@ -61,8 +61,8 @@
       "fetchedAt": "2026-10-11"
     },
     "packages": {
-      "sha": "a4f609db8e3325ee3c8b13571790c47d69b14da5",
-      "fetchedAt": "2026-10-23"
+      "sha": "6cf30631883e81115100a21a04a71ec6f0a7cc01",
+      "fetchedAt": "2026-10-28"
     },
     "sessions": {
       "sha": "1a8be36c5eee85be1a3b6623af1dd6872b79f89c",
