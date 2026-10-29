@@ -61,8 +61,8 @@
       "fetchedAt": "2026-10-11"
     },
     "packages": {
-      "sha": "6cf30631883e81115100a21a04a71ec6f0a7cc01",
-      "fetchedAt": "2026-10-28"
+      "sha": "6aa1d8afc7d24edc2876c60c6d2956fbd2d6ae7a",
+      "fetchedAt": "2026-10-29"
     },
     "sessions": {
       "sha": "1a8be36c5eee85be1a3b6623af1dd6872b79f89c",
@@ -110,8 +110,8 @@
       "fetchedAt": "2026-09-22"
     },
     "terminal-setup": {
-      "sha": "a3c67af0796077aad695d1bcb93d94c5086b89a8",
-      "fetchedAt": "2026-10-07"
+      "sha": "ab8e1dc0e04c1b2b3c2b8d111f23b65ae8623799",
+      "fetchedAt": "2026-10-29"
     },
     "shell-aliases": {
       "sha": "da257d4943e25bb00a4486872720ce7e59b03793",
