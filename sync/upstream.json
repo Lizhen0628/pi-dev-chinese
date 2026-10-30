@@ -25,16 +25,16 @@
       "fetchedAt": "2026-10-22"
     },
     "settings": {
-      "sha": "538a61392f82fde497b01f65f9fb0268a65fa16f",
-      "fetchedAt": "2026-10-28"
+      "sha": "3de528c44cdc4d3987147b1e70ba2b674dea6437",
+      "fetchedAt": "2026-10-30"
     },
     "keybindings": {
       "sha": "34e4d68b4b90e9e3a90eb6de494a2e6595480bf9",
       "fetchedAt": "2026-10-28"
     },
     "environment-variables": {
-      "sha": "b485d6051f384bf41c777412016516d4a4406c3a",
-      "fetchedAt": "2026-10-23"
+      "sha": "14dd3e1428fa99ccf46d0e8daae895831140bcd4",
+      "fetchedAt": "2026-10-30"
     },
     "security": {
       "sha": "4f0dc290fe1011883cd64c729f07bfe046feb9b1",
@@ -45,8 +45,8 @@
       "fetchedAt": "2026-09-22"
     },
     "extensions": {
-      "sha": "7666d5645d60ae6c09b263e68a23d15b999893ee",
-      "fetchedAt": "2026-10-28"
+      "sha": "3606e80f97474f88659772ce0479cde67dbae4dd",
+      "fetchedAt": "2026-10-30"
     },
     "skills": {
       "sha": "19d2bf28910ce49caaaf4dde86d1e96330ca7b31",
@@ -65,8 +65,8 @@
       "fetchedAt": "2026-10-29"
     },
     "sessions": {
-      "sha": "1a8be36c5eee85be1a3b6623af1dd6872b79f89c",
-      "fetchedAt": "2026-10-13"
+      "sha": "aeb59a308c5d1f133f71865a151ff96ce5db8453",
+      "fetchedAt": "2026-10-30"
     },
     "compaction": {
       "sha": "69c82e8898f54cf87bf12fa1f9fe931b5f3a8d56",
