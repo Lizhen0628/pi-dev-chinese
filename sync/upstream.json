@@ -45,8 +45,8 @@
       "fetchedAt": "2026-09-22"
     },
     "extensions": {
-      "sha": "3606e80f97474f88659772ce0479cde67dbae4dd",
-      "fetchedAt": "2026-10-30"
+      "sha": "6fbec2b65eb499fe58de34073118e2cfabf6820d",
+      "fetchedAt": "2026-10-31"
     },
     "skills": {
       "sha": "19d2bf28910ce49caaaf4dde86d1e96330ca7b31",
@@ -98,16 +98,16 @@
       "missing": true
     },
     "windows": {
-      "sha": "26f2f961cbdd4dee08f4a63724a9cc4ad1f0c1b5",
-      "fetchedAt": "2026-10-19"
+      "sha": "6e68979b8df8385c8cb3ca9bb4d9b5d6867b9647",
+      "fetchedAt": "2026-10-31"
     },
     "termux": {
       "sha": "ee46379f2cb7a7f7cd172790f5c919fae7316210",
       "fetchedAt": "2026-09-22"
     },
     "tmux": {
-      "sha": "091d61647517b8a621c5ed8eba74cbe468bf15af",
-      "fetchedAt": "2026-09-22"
+      "sha": "1a640d174336469df65eb7c3e65581b10ab4181f",
+      "fetchedAt": "2026-10-31"
     },
     "terminal-setup": {
       "sha": "ab8e1dc0e04c1b2b3c2b8d111f23b65ae8623799",
